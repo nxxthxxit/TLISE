@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="th" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <title>ระบบสารสนเทศกฎหมายไทย - ค้นหามาตราและรายละเอียดประมวลกฎหมาย</title>
+    <meta name="description" content="ค้นหาข้อมูลเกี่ยวกับมาตราและรายละเอียดของประมวลกฎหมายไทยแบบรวดเร็ว">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Font: Prompt -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Prompt', 'sans-serif'],
+                    },
+                    colors: {
+                        cream: {
+                            50: '#FFFEFA',
+                            100: '#FDF6E2',
+                            200: '#F4E8C1',
+                            300: '#EAD9A2',
+                            800: '#8A7A48',
+                            900: '#5C4E24'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #FDF6E2;
+        }
+        /* Custom scrollbar for clean minimal look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FDF6E2;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #EAD9A2;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D5C286;
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col text-neutral-700 bg-cream-100 antialiased selection:bg-cream-200 selection:text-cream-900">
+
+    <!-- Header Section -->
+    <header class="bg-white/80 backdrop-blur-md border-b border-cream-200 sticky top-0 z-40 transition-all duration-300 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="resetView()">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-100 to-cream-200 border border-cream-300 flex items-center justify-center shadow-inner text-amber-800">
+                    <i class="fa-solid fa-scale-balanced text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg sm:text-xl font-bold text-neutral-800 tracking-tight">ระบบสารสนเทศกฎหมายเพื่อการศึกษา</h1>
+                    <p class="text-xs text-neutral-500 font-light">Thai Law Information System for Education</p>
+                </div>
+            </div>
+            
+            <!-- Quick Navigation / Stats -->
+            <div class="hidden md:flex items-center space-x-6 text-sm text-neutral-600 font-medium">
+                <span class="flex items-center space-x-1.5 bg-cream-50 px-3.5 py-1.5 rounded-full border border-cream-200">
+                    <i class="fa-solid fa-book text-amber-600"></i>
+                    <span>4 หมวดหลัก</span>
+                </span>
+                <span class="flex items-center space-x-1.5 bg-cream-50 px-3.5 py-1.5 rounded-full border border-cream-200">
+                    <i class="fa-solid fa-shield-halved text-amber-600"></i>
+                    <span>อัปเดตเมื่อวันที่ 23 ตุลาคม พ.ศ. 2569</span>
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Hero & Search Banner -->
+    <section class="relative bg-gradient-to-b from-cream-100 via-white to-white py-12 px-4 sm:px-6 lg:px-8 border-b border-cream-200">
+        <div class="max-w-4xl mx-auto text-center space-y-6">
+            <span class="inline-flex items-center gap-1.5 py-1 px-4 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 border border-amber-200 shadow-sm">
+                <i class="fa-solid fa-sparkles"></i> แหล่งรวบรวมและสืบค้นกฎหมาย
+            </span>
+            <h2 class="text-3xl sm:text-5xl font-extrabold text-neutral-900 tracking-tight leading-tight">
+                ระบบสารสนเทศกฎหมายเพื่อการศึกษา
+            </h2>
+            <p class="text-sm sm:text-base text-neutral-600 max-w-2xl mx-auto font-light leading-relaxed">
+                เพื่อความสะดวกและรวดเร็วต่อการใช้งาน
+            </p>
+
+            <!-- Search Input Box -->
+            <div class="relative max-w-2xl mx-auto mt-6">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-neutral-400">
+                    <i class="fa-solid fa-magnifying-glass text-lg"></i>
+                </div>
+                <input type="text" id="searchInput" oninput="handleSearch()" placeholder="ค้นหาด้วยเลขมาตรา (เช่น มาตรา 420, 1336, 288) หรือคำสำคัญ..." 
+                    class="w-full pl-12 pr-12 py-4 bg-white border border-cream-300 rounded-2xl text-neutral-800 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-amber-300 focus:border-amber-400 shadow-lg shadow-cream-200/50 transition-all text-sm sm:text-base">
+                <button onclick="clearSearch()" id="clearBtn" class="absolute inset-y-0 right-0 pr-4 flex items-center text-neutral-400 hover:text-neutral-600 hidden">
+                    <i class="fa-solid fa-circle-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Category Filter Pills -->
+            <div class="flex flex-wrap justify-center gap-2 pt-2" id="filterPills">
+                <button onclick="filterCategory('all')" class="cat-pill active px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-neutral-900 text-white shadow-sm">
+                    ทั้งหมด
+                </button>
+                <button onclick="filterCategory('ccc')" class="cat-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-white text-neutral-700 border border-cream-300 hover:bg-cream-50">
+                    ประมวลกฎหมายแพ่งและพาณิชย์ (ป.พ.พ.)
+                </button>
+                <button onclick="filterCategory('pc')" class="cat-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-white text-neutral-700 border border-cream-300 hover:bg-cream-50">
+                    ประมวลกฎหมายอาญา (ป.อ.)
+                </button>
+                <button onclick="filterCategory('cpc')" class="cat-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-white text-neutral-700 border border-cream-300 hover:bg-cream-50">
+                    ประมวลกฎหมายวิธีพิจารณาความแพ่ง (ป.วิ.แพ่ง)
+                </button>
+                <button onclick="filterCategory('cpcc')" class="cat-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-white text-neutral-700 border border-cream-300 hover:bg-cream-50">
+                    ประมวลกฎหมายวิธีพิจารณาความอาญา (ป.วิ.อาญา)
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        
+        <!-- Category Overview Cards (Shown when 'all' and no search) -->
+        <div id="categoryOverview" class="mb-12">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-bold text-neutral-800 flex items-center gap-2">
+                    <i class="fa-solid fa-layer-group text-amber-700"></i> หมวดหมู่ประมวลกฎหมาย
+                </h3>
+                <span class="text-xs text-neutral-500 font-light">ค้นหามาตราตามหวมดหมู่</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- CCC Card -->
+                <div onclick="filterCategory('ccc')" class="bg-white p-6 rounded-3xl border border-cream-200 hover:border-amber-300 hover:shadow-xl hover:shadow-cream-200/50 transition-all duration-300 cursor-pointer group flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-800 mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-handshake text-lg"></i>
+                        </div>
+                        <span class="text-xs font-semibold text-amber-800 uppercase tracking-wider bg-amber-50 px-2.5 py-1 rounded-lg">ป.พ.พ.</span>
+                        <h4 class="text-lg font-bold text-neutral-900 mt-2 mb-2 group-hover:text-amber-800 transition-colors">ประมวลกฎหมายแพ่งและพาณิชย์</h4>
+                        <p class="text-xs text-neutral-500 font-light line-clamp-3">ว่าด้วยสิทธิ หน้าที่ สัญญา ทรัพย์สิน ครอบครัว มรดก ละเมิด และนิติกรรมต่างๆ ในชีวิตประจำวัน</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-cream-100 flex items-center justify-between text-xs font-medium text-amber-800">
+                        <span>ดูมาตราสำคัญ</span>
+                        <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </div>
+
+                <!-- PC Card -->
+                <div onclick="filterCategory('pc')" class="bg-white p-6 rounded-3xl border border-cream-200 hover:border-amber-300 hover:shadow-xl hover:shadow-cream-200/50 transition-all duration-300 cursor-pointer group flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-rose-50 border border-rose-200 flex items-center justify-center text-rose-700 mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-gavel text-lg"></i>
+                        </div>
+                        <span class="text-xs font-semibold text-rose-700 uppercase tracking-wider bg-rose-50 px-2.5 py-1 rounded-lg">ป.อ.</span>
+                        <h4 class="text-lg font-bold text-neutral-900 mt-2 mb-2 group-hover:text-rose-700 transition-colors">ประมวลกฎหมายอาญา</h4>
+                        <p class="text-xs text-neutral-500 font-light line-clamp-3">กำหนดความผิด โทษทางอาญา ความรับผิดทางอาญา ความผิดต่อชีวิต ร่างกาย ทรัพย์สิน และความสงบสุข</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-cream-100 flex items-center justify-between text-xs font-medium text-rose-700">
+                        <span>ดูมาตราสำคัญ</span>
+                        <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </div>
+
+                <!-- CPC Card -->
+                <div onclick="filterCategory('cpc')" class="bg-white p-6 rounded-3xl border border-cream-200 hover:border-amber-300 hover:shadow-xl hover:shadow-cream-200/50 transition-all duration-300 cursor-pointer group flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-700 mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-scale-balanced text-lg"></i>
+                        </div>
+                        <span class="text-xs font-semibold text-sky-700 uppercase tracking-wider bg-sky-50 px-2.5 py-1 rounded-lg">ป.วิ.แพ่ง</span>
+                        <h4 class="text-lg font-bold text-neutral-900 mt-2 mb-2 group-hover:text-sky-700 transition-colors">วิธีพิจารณาความแพ่ง</h4>
+                        <p class="text-xs text-neutral-500 font-light line-clamp-3">กระบวนการฟ้องร้อง การพิจารณาคดี การสืบพยาน การบังคับคดีแพ่ง และการอุทธรณ์ฎีกาทางแพ่ง</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-cream-100 flex items-center justify-between text-xs font-medium text-sky-700">
+                        <span>ดูมาตราสำคัญ</span>
+                        <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </div>
+
+                <!-- CPCC Card -->
+                <div onclick="filterCategory('cpcc')" class="bg-white p-6 rounded-3xl border border-cream-200 hover:border-amber-300 hover:shadow-xl hover:shadow-cream-200/50 transition-all duration-300 cursor-pointer group flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-700 mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-shield-dog text-lg"></i>
+                        </div>
+                        <span class="text-xs font-semibold text-indigo-700 uppercase tracking-wider bg-indigo-50 px-2.5 py-1 rounded-lg">ป.วิ.อาญา</span>
+                        <h4 class="text-lg font-bold text-neutral-900 mt-2 mb-2 group-hover:text-indigo-700 transition-colors">วิธีพิจารณาความอาญา</h4>
+                        <p class="text-xs text-neutral-500 font-light line-clamp-3">อำนาจสืบสวนสอบสวน การจับกุม ค้นขัง การฟ้องคดีอาญาต่อศาล และการพิจารณาพิพากษาคดีอาญา</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-cream-100 flex items-center justify-between text-xs font-medium text-indigo-700">
+                        <span>ดูมาตราสำคัญ</span>
+                        <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Section Title & Results Count -->
+        <div class="flex items-center justify-between mb-6">
+            <h3 id="sectionTitle" class="text-xl font-bold text-neutral-800 flex items-center gap-2">
+                <i class="fa-solid fa-list text-amber-700"></i> รายการมาตรากฎหมายทั้งหมด
+            </h3>
+            <span id="resultCount" class="text-xs sm:text-sm font-medium text-neutral-500 bg-white px-3.5 py-1.5 rounded-full border border-cream-200 shadow-sm">
+                แสดงผล 12 มาตรา
+            </span>
+        </div>
+
+        <!-- Articles Grid Container -->
+        <div id="articlesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Dynamic JavaScript Content insertion here -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden text-center py-16 bg-white rounded-3xl border border-cream-200 shadow-sm mt-6">
+            <div class="w-16 h-16 bg-amber-50 text-amber-800 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl border border-amber-200">
+                <i class="fa-solid fa-folder-open"></i>
+            </div>
+            <h4 class="text-lg font-bold text-neutral-800">ไม่พบมาตรากฎหมายที่ค้นหา</h4>
+            <p class="text-sm text-neutral-500 font-light mt-1">ลองเปลี่ยนคำค้นหา หรือเลือกหมวดหมู่อื่นใหม่อีกครั้ง</p>
+            <button onclick="resetView()" class="mt-4 px-5 py-2.5 bg-neutral-900 text-white rounded-xl text-xs font-medium hover:bg-neutral-800 transition-all shadow-md">
+                ดูมาตราทั้งหมด
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Detailed Modal -->
+    <div id="detailModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 p-4">
+        <div id="modalContent" class="bg-white w-full max-w-2xl rounded-3xl border border-cream-200 shadow-2xl overflow-hidden transform scale-95 transition-transform duration-300 max-h-[90vh] flex flex-col">
+            <!-- Modal Header -->
+            <div class="px-6 py-5 border-b border-cream-200 flex items-center justify-between bg-cream-50/50">
+                <div class="flex items-center space-x-3">
+                    <span id="modalCategoryBadge" class="text-xs font-semibold px-3 py-1 rounded-lg uppercase tracking-wider">หมวด</span>
+                    <h3 id="modalTitle" class="text-lg sm:text-xl font-bold text-neutral-900">มาตรา...</h3>
+                </div>
+                <button onclick="closeModal()" class="w-9 h-9 rounded-xl bg-white border border-cream-200 text-neutral-500 hover:text-neutral-800 hover:bg-cream-100 flex items-center justify-center transition-all">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <!-- Modal Body -->
+            <div class="p-6 sm:p-8 overflow-y-auto space-y-6">
+                <div>
+                    <h4 class="text-xs font-bold text-neutral-400 uppercase tracking-wider mb-2">เนื้อหามาตรา</h4>
+                    <p id="modalText" class="text-base sm:text-lg text-neutral-800 font-medium leading-relaxed bg-cream-50/60 p-5 rounded-2xl border border-cream-200/60 shadow-inner">
+                        <!-- Content -->
+                    </p>
+                </div>
+                <div id="modalExplanationContainer">
+                    <h4 class="text-xs font-bold text-amber-800 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                        <i class="fa-solid fa-lightbulb"></i> คำอธิบายและแนวคำพิพากษาสำคัญ
+                    </h4>
+                    <p id="modalExplanation" class="text-sm text-neutral-600 font-light leading-relaxed bg-amber-50/40 p-5 rounded-2xl border border-amber-200/50">
+                        <!-- Explanation -->
+                    </p>
+                </div>
+            </div>
+            <!-- Modal Footer -->
+            <div class="px-6 py-4 border-t border-cream-200 bg-cream-50/50 flex items-center justify-between">
+                <span id="modalSubCategory" class="text-xs text-neutral-500 font-light">หมวดย่อยย่อย</span>
+                <button onclick="closeModal()" class="px-5 py-2.5 bg-neutral-900 text-white rounded-xl text-xs font-medium hover:bg-neutral-800 transition-all shadow-md">
+                    ปิดหน้าต่าง
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-cream-200 py-8 text-center text-xs text-neutral-500 font-light">
+        <div class="max-w-7xl mx-auto px-4 space-y-2">
+            <p class="font-medium text-neutral-700">ระบบสารสนเทศกฎหมายเพื่อการศึกษา</p>
+            <p>จัดทำโดยนายณัฐกิตติ์ ตะเพียรทอง นักศึกษาคณะนิติศาสตร์ มหาวิทยาลัยรามคำแหง</p>
+            <p>เพื่อการศึกษา ค้นคว้า และอ้างอิงเบื้องต้นตามประมวลกฎหมาย</p>
+            <p class="text-neutral-400 pt-2">© 2026 Thai Law Information System for Education. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Data and Logic -->
+    <script>
+        // Database of Legal Articles
+        const legalData = [
+            // ป.พ.พ. (Civil and Commercial Code)
+             {
+                id: "ccc-1",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 1",
+                title: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                text: "กฎหมายนี้เรียกว่า ประมวลกฎหมายแพ่งและพาณิชย์",
+            },
+            {
+                id: "ccc-2",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 2",
+                title: "วันที่ใช้กฎหมายนี้",
+                text: "ให้ใช้ประมวลกฎหมายนี้ตั้งแต่วันที่ 1 เดือนมกราคม พุทธศักราช 2468 เป็นต้นไป",
+            },
+            {
+                id: "ccc-3",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 3",
+                title: "ให้ยกเลิกกฎหมายอื่นที่ขัดแย้งกับกฎหมายฉบับนี้",
+                text: "ตั้งแต่วันที่ใช้ประมวลกฎหมายนี้สืบไป ให้ยกเลิกบรรดากฎหมาย กฎและข้อบังคับอื่นๆ ในส่วนที่มีบัญญัติไว้แล้วในประมวลกฎหมายนี้หรือซึ่งแย้งกับบทแห่งประมวลกฎหมายนี้",
+            },
+            {
+                id: "ccc-420",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 420",
+                title: "ความรับผิดฐานละเมิด",
+                text: "ผู้ใดจงใจหรือประมาทเลินเล่อ ทำต่อบุคคลอื่นโดยผิดกฎหมายให้เขาเสียหายแก่ชีวิตก็ดี ร่างกายก็ดี อนามัยก็ดี เสรีภาพก็ดี ทรัพย์สินหรือสิทธิอย่างหนึ่งอย่างใดก็ดี ท่านว่าผู้นั้นทำละเมิดจำต้องใช้ค่าสินไหมทดแทนเพื่อการนั้น",
+                explanation: "เป็นหลักกฎหมายพื้นฐานของความรับผิดทางแพ่ง (ละเมิด) ประกอบด้วยองค์ประกอบสำคัญคือ 1. กระทำโดยจงใจหรือประมาทเลินเล่อ 2. โดยผิดกฎหมาย 3. ทำให้เกิดความเสียหายต่อสิทธิของผู้อื่น 4. มีความสัมพันธ์ระหว่างการกระทำและความเสียหาย"
+            },
+            {
+                id: "ccc-453",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 453",
+                title: "ลักษณะแห่งสัญญาซื้อขาย",
+                text: "อันว่าซื้อขายนั้น คือสัญญาซึ่งบุคคลฝ่ายหนึ่งเรียกว่าผู้ขาย โอนกรรมสิทธิ์แห่งทรัพย์สินให้แก่บุคคลอีกฝ่ายหนึ่งเรียกว่าผู้ซื้อ และผู้ซื้อตกลงว่าจะใช้ราคาทรัพย์สินนั้นให้แก่ผู้ขาย",
+                explanation: "นิยามทางกฎหมายของสัญญาซื้อขาย ซึ่งใจความสำคัญคือการ 'โอนกรรมสิทธิ์' และการชำระ 'ราคา' โดยไม่ต้องส่งมอบทรัพย์ในทันทีก็เกิดสัญญาซื้อขายสมบูรณ์ได้"
+            },
+            {
+                id: "ccc-653",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 653",
+                title: "หลักฐานแห่งการกู้ยืมเงิน",
+                text: "การกู้ยืมเงินกว่าสองพันบาทขึ้นไปนั้น ถ้ามิได้มีหลักฐานแห่งการกู้ยืมเป็นหนังสืออย่างลงลายมือชื่อผู้ยืมเป็นสำคัญ จะฟ้องร้องให้บังคับคดีหาได้ไม่",
+                explanation: "สัญญายืมเงินเกิน 2,000 บาทขึ้นไป กฎหมายบังคับว่าต้องมีหลักฐานเป็นลายลักษณ์อักษรที่ผู้ยืมลงลายมือชื่อจึงจะฟ้องศาลบังคับคดีได้ หากไม่มีจะฟ้องไม่ได้เลย"
+            },
+            {
+                id: "ccc-1336",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 1336",
+                title: "สิทธิของเจ้าของกรรมสิทธิ์ทรัพย์สิน",
+                text: "ภายในบังคับแห่งกฎหมาย เจ้าของทรัพย์สินมีสิทธิใช้สอยและจำหน่ายทรัพย์สินของตนและได้ซึ่งดอกผลแห่งทรัพย์สินนั้น ทั้งมีสิทธิติดตามและเอาคืนซึ่งทรัพย์สินของตนจากบุคคลผู้ไม่มีสิทธิจะยึดถือไว้ และมีสิทธิขัดขวางมิให้ผู้อื่นสอดเข้าเกี่ยวข้องกับทรัพย์สินนั้นโดยมิชอบด้วยกฎหมาย",
+                explanation: "มาตราหลักเรื่องกรรมสิทธิ์ ให้สิทธิเจ้าของในการครอบครอง ใช้สอย ได้ดอกผล จำหน่าย ติดตามเอาคืน และขัดขวางผู้สอดเข้าเกี่ยวข้องโดยมิชอบ"
+            },
+
+            // ป.อ. (Criminal Code)
+            {
+                id: "pc-288",
+                category: "pc",
+                categoryName: "ประมวลกฎหมายอาญา",
+                badgeClass: "bg-rose-50 text-rose-700 border border-rose-200",
+                section: "มาตรา 288",
+                title: "ความผิดฐานฆ่าผู้อื่น",
+                text: "ผู้ใดฆ่าผู้อื่น ต้องระวางโทษประหารชีวิต จำคุกตั้งแต่สิบหปีถึงยี่สิบปี",
+                explanation: "ความผิดฐานฆ่าผู้อื่นโดยเจตนา (ไม่ใช่การฆ่าโดยไม่เจตนาหรือป้องกันตัว) เป็นความผิดอาญาแผ่นดินที่มีโทษรุนแรงสูงมากตามกฎหมายไทย"
+            },
+            {
+                id: "pc-334",
+                category: "pc",
+                categoryName: "ประมวลกฎหมายอาญา",
+                badgeClass: "bg-rose-50 text-rose-700 border border-rose-200",
+                section: "มาตรา 334",
+                title: "ความผิดฐานลักทรัพย์",
+                text: "ผู้ใดเอาทรัพย์ของผู้อื่น หรือที่ผู้อื่นเป็นเจ้าของรวมอยู่ด้วยไปโดยทุจริต ผู้นั้นกระทำความผิดฐานลักทรัพย์ ต้องระวางโทษจำคุกไม่เกินสามปี และปรับไม่เกินหกหมื่นบาท",
+                explanation: "องค์ประกอบความผิดฐานลักทรัพย์ คือการเอาทรัพย์ไปโดยทุจริต (เจตนาแสวงหาประโยชน์ที่มิควรได้โดยชอบด้วยกฎหมายสำหรับตนเองหรือผู้อื่น) โดยไม่มีการใช้กำลังประทุษร้าย"
+            },
+            {
+                id: "pc-59",
+                category: "pc",
+                categoryName: "ประมวลกฎหมายอาญา",
+                badgeClass: "bg-rose-50 text-rose-700 border border-rose-200",
+                section: "มาตรา 59",
+                title: "ความรับผิดทางอาญา (เจตนา / ประมาท)",
+                text: "บุคคลจะต้องรับผิดทางอาญาต่อเมื่อได้กระทำโดยเจตนา เว้นแต่จะได้กระทำโดยประมาท ในกรณีที่กฎหมายบัญญัติให้ต้องรับผิดเมื่อกระทำโดยประมาท หรือเว้นแต่ในกรณีที่กฎหมายบัญญัติไว้โดยแจ้งชัดให้ต้องรับผิดโดยไม่ต้องคำนึงถึงเจตนา...",
+                explanation: "หลักการสำคัญทางอาญาว่า 'ไม่มีเจตนา ไม่มีโทษทางอาญา' ยกเว้นกฎหมายกำหนดไว้ชัดเจนว่าเป็นความผิดแบบประมาทหรือความผิดลหุโทษบางประเภท"
+            },
+            {
+                id: "pc-68",
+                category: "pc",
+                categoryName: "ประมวลกฎหมายอาญา",
+                badgeClass: "bg-rose-50 text-rose-700 border border-rose-200",
+                section: "มาตรา 68",
+                title: "การป้องกันตัวโดยชอบด้วยกฎหมาย",
+                text: "ผู้ใดจำต้องกระทำการใดเพื่อป้องกันحقของตนหรือของผู้อื่น ให้พ้นภยันตรายซึ่งเกิดจากการประทุษร้ายอันละเมิดต่อกฎหมายและเป็นภยันตรายใกล้จะถึง ถ้าได้กระทำพอสมควรแก่เหตุ การกระทำนั้นเป็นการป้องกันโดยชอบด้วยกฎหมาย ผู้นั้นไม่มีความผิด",
+                explanation: "สิทธิในการป้องกันตัวเมื่อถูกประทุษร้ายผิดกฎหมายใกล้จะถึง โดยการกระทำต้อง 'พอสมควรแก่เหตุ' หากทำเกินกว่าเหตุอาจมีความผิดแต่ศาลอาจลงโทษน้อยเพียงใดก็ได้"
+            },
+
+            // ป.วิ.พ. (Civil Procedure Code)
+            {
+                id: "cpc-55",
+                category: "cpc",
+                categoryName: "ประมวลกฎหมายวิธีพิจารณาความแพ่ง",
+                badgeClass: "bg-sky-50 text-sky-700 border border-sky-200",
+                section: "มาตรา 55",
+                title: "สิทธิในการเสนอคำฟ้องคดีแพ่ง",
+                text: "เมื่อมีข้อโต้แย้งเกิดขึ้นเกี่ยวกับสิทธิหรือหน้าที่ของบุคคลใดตามกฎหมายแพ่ง หรือบุคคลใดจะต้องใช้สิทธิทางศาล บุคคลนั้นมีสิทธิเสนอคำฟ้องของตนต่อศาลที่competent เพื่อวินิจฉัยชี้ขาด...",
+                explanation: "เงื่อนไขเบื้องต้นในการฟ้องคดีแพ่งคือต้อง 'มีข้อโต้แย้งเกิดขึ้น' เกี่ยวกับสิทธิหรือหน้าที่เสียก่อน จึงจะมีอำนาจฟ้องคดีต่อศาลได้"
+            },
+            {
+                id: "cpc-142",
+                category: "cpc",
+                categoryName: "ประมวลกฎหมายวิธีพิจารณาความแพ่ง",
+                badgeClass: "bg-sky-50 text-sky-700 border border-sky-200",
+                section: "มาตรา 142",
+                title: "ขอบเขตคำพิพากษาของศาลแพ่ง",
+                text: "คำพิพากษาหรือคำสั่งของศาลที่วินิจฉัยชี้ขาดคดีต้องอยู่ภายใต้บังคับแห่งบทบัญญัติแห่งมาตรา 148 ว่าด้วยเรื่องคดีที่พิพากษาแล้ว และต้องไม่พิพากษาหรือทำคำสั่งเกินกว่าหรือนอกจากที่ปรากฏในคำฟ้อง",
+                explanation: "หลักการ 'ห้ามพิพากษาเกินคำขอ' ศาลแพ่งจะพิพากษาให้เกินกว่าที่โจทก์มีคำขอมาในฟ้องไม่ได้ เว้นแต่เป็นคดีที่มีกฎหมายข้อยกเว้นไว้โดยเฉพาะ"
+            },
+
+            // ป.วิ.อาญา (Criminal Procedure Code)
+            {
+                id: "cpcc-2",
+                category: "cpcc",
+                categoryName: "ประมวลกฎหมายวิธีพิจารณาความอาญา",
+                badgeClass: "bg-indigo-50 text-indigo-700 border border-indigo-200",
+                section: "มาตรา 2 (16)",
+                title: "คำร้องทุกข์ในคดีอาญา",
+                text: "'คำร้องทุกข์' หมายความถึงการที่ผู้เสียหายได้กล่าวหาต่อเจ้าหน้าที่ผู้มีอำนาจว่ามีผู้กระทำความผิดขึ้น จะรู้ตัวผู้กระทำความผิดหรือไม่ก็ตาม ซึ่งได้กระทำ ฯลฯ และการกล่าวหาเช่นนั้นได้กล่าวโดยมีเจตนาจะให้ผู้กระทำความผิดได้รับโทษ",
+                explanation: "นิยามสำคัญของผู้เสียหายและคำร้องทุกข์ ซึ่งในความผิดอันยอมความได้ (เช่น หมิ่นประมาท ยักยอก ฉ้อโกงบางประเภท) ต้องมีคำร้องทุกข์โดยชอบด้วยกฎหมายภายใน 3 เดือนนับแต่วันรู้เรื่องและรู้ตัวผู้กระทำผิด มิฉะนั้นคดีขาดอายุความ"
+            },
+            {
+                id: "cpcc-134",
+                category: "cpcc",
+                categoryName: "ประมวลกฎหมายวิธีพิจารณาความอาญา",
+                badgeClass: "bg-indigo-50 text-indigo-700 border border-indigo-200",
+                section: "มาตรา 134",
+                title: "การสอบสวนผู้ต้องหาโดยพนักงานสอบสวน",
+                text: "เมื่อผู้ต้องหาถูกควบคุมหรือมา ฯลฯ ให้พนักงานสอบสวนแจ้งข้อหาให้ทราบ และแจ้งถึงสิทธิที่จะให้การหรือไม่ก็ได้ สิทธิในการพบและปรึกษาทนายความ...",
+                explanation: "คุ้มครองสิทธิผู้ต้องหาในชั้นสอบสวน ต้องแจ้งข้อหา แจ้งสิทธิในการให้การ และสิทธิในการมีทนายความร่วมฟังการสอบสวนตามรัฐธรรมนูญและ ป.วิ.อาญา"
+            }
+        ];
+
+        let currentCategory = 'all';
+        let searchQuery = '';
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', () => {
+            renderArticles(legalData);
+        });
+
+        // Handle Search Input
+        function handleSearch() {
+            const input = document.getElementById('searchInput');
+            searchQuery = input.value.trim().toLowerCase();
+            const clearBtn = document.getElementById('clearBtn');
+            const overview = document.getElementById('categoryOverview');
+
+            if (searchQuery.length > 0) {
+                clearBtn.classList.remove('hidden');
+                // Hide category overview when searching to focus on search results
+                overview.classList.add('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+                if (currentCategory === 'all') {
+                    overview.classList.remove('hidden');
+                }
+            }
+
+            filterAndRender();
+        }
+
+        // Clear Search Box
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            searchQuery = '';
+            document.getElementById('clearBtn').classList.add('hidden');
+            if (currentCategory === 'all') {
+                document.getElementById('categoryOverview').classList.remove('hidden');
+            }
+            filterAndRender();
+        }
+
+        // Filter Category
+        function filterCategory(category) {
+            currentCategory = category;
+            
+            // Update active pill UI
+            const pills = document.querySelectorAll('.cat-pill');
+            pills.forEach(p => {
+                p.className = "cat-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-white text-neutral-700 border border-cream-300 hover:bg-cream-50";
+            });
+
+            event.currentTarget.className = "cat-pill active px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-neutral-900 text-white shadow-sm";
+
+            const overview = document.getElementById('categoryOverview');
+            if (currentCategory === 'all' && searchQuery === '') {
+                overview.classList.remove('hidden');
+            } else {
+                overview.classList.add('hidden');
+            }
+
+            filterAndRender();
+        }
+
+        // Reset View to Home State
+        function resetView() {
+            document.getElementById('searchInput').value = '';
+            searchQuery = '';
+            document.getElementById('clearBtn').classList.add('hidden');
+            currentCategory = 'all';
+            
+            const pills = document.querySelectorAll('.cat-pill');
+            pills.forEach((p, idx) => {
+                if (idx === 0) {
+                    p.className = "cat-pill active px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-neutral-900 text-white shadow-sm";
+                } else {
+                    p.className = "cat-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-white text-neutral-700 border border-cream-300 hover:bg-cream-50";
+                }
+            });
+
+            document.getElementById('categoryOverview').classList.remove('hidden');
+            renderArticles(legalData);
+        }
+
+        // Combined Filter and Render Logic
+        function filterAndRender() {
+            let filtered = legalData.filter(item => {
+                const matchCategory = (currentCategory === 'all' || item.category === currentCategory);
+                const matchSearch = searchQuery === '' || 
+                    item.section.toLowerCase().includes(searchQuery) || 
+                    item.title.toLowerCase().includes(searchQuery) || 
+                    item.text.toLowerCase().includes(searchQuery) ||
+                    item.categoryName.toLowerCase().includes(searchQuery);
+                return matchCategory && matchSearch;
+            });
+
+            // Update Section Title & Result Count
+            const sectionTitle = document.getElementById('sectionTitle');
+            if (currentCategory === 'all') {
+                sectionTitle.innerHTML = `<i class="fa-solid fa-list text-amber-700"></i> รายการมาตราทั้งหมด`;
+            } else {
+                const catNames = {
+                    'ccc': 'ประมวลกฎหมายแพ่งและพาณิชย์ (ป.พ.พ.)',
+                    'pc': 'ประมวลกฎหมายอาญา (ป.อ.)',
+                    'cpc': 'ประมวลกฎหมายวิธีพิจารณาความแพ่ง (ป.วิ.พ.)',
+                    'cpcc': 'ประมวลกฎหมายวิธีพิจารณาความอาญา (ป.วิ.อาญา)'
+                };
+                sectionTitle.innerHTML = `<i class="fa-solid fa-book-bookmark text-amber-700"></i> หมวด: ${catNames[currentCategory]}`;
+            }
+
+            document.getElementById('resultCount').innerText = `แสดงผล ${filtered.length} มาตรา`;
+
+            renderArticles(filtered);
+        }
+
+        // Render Articles to Grid
+        function renderArticles(data) {
+            const grid = document.getElementById('articlesGrid');
+            const emptyState = document.getElementById('emptyState');
+
+            if (data.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            grid.innerHTML = data.map(item => `
+                <div onclick="openModal('${item.id}')" class="bg-white p-6 rounded-3xl border border-cream-200 hover:border-amber-300 hover:shadow-xl hover:shadow-cream-200/50 transition-all duration-300 cursor-pointer flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-semibold px-3 py-1 rounded-lg uppercase tracking-wider ${item.badgeClass}">${item.section}</span>
+                            <span class="text-xs text-neutral-400 font-light flex items-center gap-1"><i class="fa-regular fa-clock"></i> กฎหมายหลัก</span>
+                        </div>
+                        <h4 class="text-lg font-bold text-neutral-900 mb-2 group-hover:text-amber-800 transition-colors">${item.title}</h4>
+                        <p class="text-xs text-neutral-600 font-light line-clamp-3 leading-relaxed mb-4">${item.text}</p>
+                    </div>
+                    <div class="pt-4 border-t border-cream-100 flex items-center justify-between">
+                        <span class="text-xs font-medium text-neutral-500 truncate max-w-[200px]">${item.categoryName}</span>
+                        <span class="text-xs font-semibold text-amber-800 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                            ดูรายละเอียด <i class="fa-solid fa-arrow-right"></i>
+                        </span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Open Modal with specific item data
+        function openModal(id) {
+            const item = legalData.find(d => d.id === id);
+            if (!item) return;
+
+            document.getElementById('modalCategoryBadge').innerText = item.section;
+            document.getElementById('modalCategoryBadge').className = `text-xs font-semibold px-3 py-1 rounded-lg uppercase tracking-wider ${item.badgeClass}`;
+            document.getElementById('modalTitle').innerText = item.title;
+            document.getElementById('modalText').innerText = item.text;
+            document.getElementById('modalExplanation').innerText = item.explanation;
+            document.getElementById('modalSubCategory').innerText = item.categoryName;
+
+            const modal = document.getElementById('detailModal');
+            const content = document.getElementById('modalContent');
+
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                content.classList.remove('scale-95');
+                content.classList.add('scale-100');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close Modal
+        function closeModal() {
+            const modal = document.getElementById('detailModal');
+            const content = document.getElementById('modalContent');
+
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside background
+        window.onclick = function(event) {
+            const modal = document.getElementById('detailModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
