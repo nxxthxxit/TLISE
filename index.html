@@ -52,9 +52,113 @@
             background: #D5C286;
         }
     </style>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Popup Notification</title>
+    <style>
+        /* สไตล์ฉากหลังมืด (Overlay) */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); /* สีดำโปร่งแสง */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        /* สไตล์กล่องป็อปอัพ */
+        .popup-box {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            font-family: 'Sarabun', sans-serif; /* แนะนำให้ใช้ฟอนต์ไทยสวยๆ */
+            animation: scaleUp 0.3s ease-in-out;
+        }
+
+        /* ไอคอนแจ้งเตือน (สามารถเปลี่ยนหรือลบออกได้) */
+        .popup-icon {
+            font-size: 48px;
+            color: #f39c12; /* สีเหลืองแจ้งเตือน */
+            margin-bottom: 15px;
+        }
+
+        /* ข้อความในป็อปอัพ */
+        .popup-box h3 {
+            margin: 0 0 10px 0;
+            color: #333333;
+            font-size: 20px;
+        }
+
+        .popup-box p {
+            margin: 0 0 20px 0;
+            color: #666666;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        /* ปุ่มปิด */
+        .popup-close-btn {
+            background-color: #3498db;
+            color: #ffffff;
+            border: none;
+            padding: 10px 25px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .popup-close-btn:hover {
+            background-color: #2980b9;
+        }
+
+        /* Animation เล็กน้อยเพื่อให้ดูนุ่มนวล */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleUp {
+            from { transform: scale(0.8); }
+            to { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- โค้ดป็อปอัพ -->
+    <div id="constructionPopup" class="popup-overlay">
+        <div class="popup-box">
+            <div class="popup-icon">⚠️</div>
+            <h3>ประกาศจากผู้พัฒนา TLISE </h3>
+            <p>ขณะนี้เว็บไซต์อยู่ระหว่างการปรับปรุงข้อมูล<br>ขออภัยในความไม่สะดวก</p>
+            <button class="popup-close-btn" onclick="closePopup()">ปิด</button>
+        </div>
+    </div>
+
+    <!-- สคริปต์สำหรับกดปิด -->
+    <script>
+        function closePopup() {
+            const popup = document.getElementById('constructionPopup');
+            popup.style.display = 'none';
+        }
+    </script>
+
+</body>
+
 </head>
 <body class="h-full flex flex-col text-neutral-700 bg-cream-100 antialiased selection:bg-cream-200 selection:text-cream-900">
-
     <!-- Header Section -->
     <header class="bg-white/80 backdrop-blur-md border-b border-cream-200 sticky top-0 z-40 transition-all duration-300 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
@@ -76,19 +180,19 @@
                 </span>
                 <span class="flex items-center space-x-1.5 bg-cream-50 px-3.5 py-1.5 rounded-full border border-cream-200">
                     <i class="fa-solid fa-shield-halved text-amber-600"></i>
-                    <span>อัปเดตเมื่อวันที่ 23 ตุลาคม พ.ศ. 2569</span>
+                    <span>อัปเดตเมื่อตุลาคม พ.ศ. 2569</span>
                 </span>
             </div>
         </div>
-    </header>
-
+   
     <!-- Main Hero & Search Banner -->
     <section class="relative bg-gradient-to-b from-cream-100 via-white to-white py-12 px-4 sm:px-6 lg:px-8 border-b border-cream-200">
+        <!-- โค้ดหลักสำหรับใส่รูปภาพ -->
         <div class="max-w-4xl mx-auto text-center space-y-6">
             <span class="inline-flex items-center gap-1.5 py-1 px-4 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 border border-amber-200 shadow-sm">
-                <i class="fa-solid fa-sparkles"></i> แหล่งรวบรวมและสืบค้นกฎหมาย
+                <i class="fa-solid fa-sparkles"></i> แหล่งรวบรวมและสืบค้นกฎหมายไทย
             </span>
-            <h2 class="text-3xl sm:text-5xl font-extrabold text-neutral-900 tracking-tight leading-tight">
+            <h2 class="text-3xl sm:text-5xl font-extrabold text-neutral-1500 tracking-tight leading-tight">
                 ระบบสารสนเทศกฎหมายเพื่อการศึกษา
             </h2>
             <p class="text-sm sm:text-base text-neutral-600 max-w-2xl mx-auto font-light leading-relaxed">
@@ -214,7 +318,7 @@
                 <i class="fa-solid fa-list text-amber-700"></i> รายการมาตรากฎหมายทั้งหมด
             </h3>
             <span id="resultCount" class="text-xs sm:text-sm font-medium text-neutral-500 bg-white px-3.5 py-1.5 rounded-full border border-cream-200 shadow-sm">
-                แสดงผล 12 มาตรา
+                แสดงผล ... มาตรา
             </span>
         </div>
 
@@ -260,10 +364,18 @@
                 </div>
                 <div id="modalExplanationContainer">
                     <h4 class="text-xs font-bold text-amber-800 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                        <i class="fa-solid fa-lightbulb"></i> คำอธิบายและแนวคำพิพากษาสำคัญ
+                        <i class="fa-solid fa-lightbulb"></i> คำอธิบาย
                     </h4>
                     <p id="modalExplanation" class="text-sm text-neutral-600 font-light leading-relaxed bg-amber-50/40 p-5 rounded-2xl border border-amber-200/50">
                         <!-- Explanation -->
+                    </p>
+                </div>
+                <div id="modalJudgmentContainer">
+                    <h4 class="text-xs font-bold text-amber-800 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                        <i class="fa-solid fa-lightbulb"></i> คำพิพากษา
+                    </h4>
+                    <p id="modalJudgment" class="text-sm text-neutral-600 font-light leading-relaxed bg-amber-50/40 p-5 rounded-2xl border border-amber-200/50">
+                        <!-- Judgment -->
                     </p>
                 </div>
             </div>
@@ -278,12 +390,13 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-cream-200 py-8 text-center text-xs text-neutral-500 font-light">
+    <footer class="bg-white border-t border-cream-200 py-8 text-center text-s text-neutral-500 font-light">
         <div class="max-w-7xl mx-auto px-4 space-y-2">
             <p class="font-medium text-neutral-700">ระบบสารสนเทศกฎหมายเพื่อการศึกษา</p>
-            <p>จัดทำโดยนายณัฐกิตติ์ ตะเพียรทอง นักศึกษาคณะนิติศาสตร์ มหาวิทยาลัยรามคำแหง</p>
-            <p>เพื่อการศึกษา ค้นคว้า และอ้างอิงเบื้องต้นตามประมวลกฎหมาย</p>
-            <p class="text-neutral-400 pt-2">© 2026 Thai Law Information System for Education. All Rights Reserved.</p>
+            <p class="font-medium text-neutral-700">(Thai Law Information System for Education)</p>
+            <p class="font-medium text-neutral-500 text-s pt-1">© 2026 Thai Law Information System for Education. All Rights Reserved.</p>
+            <p class="text-neutral-400 text-xs">จัดทำโดยนายณัฐกิตติ์ ตะเพียรทอง นักศึกษาคณะนิติศาสตร์ มหาวิทยาลัยรามคำแหง</p>
+            <p class="text-neutral-400 text-xs">เพื่อการศึกษา ค้นคว้า และอ้างอิงเบื้องต้นตามประมวลกฎหมาย</p>
         </div>
     </footer>
 
@@ -300,6 +413,8 @@
                 section: "มาตรา 1",
                 title: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 text: "กฎหมายนี้เรียกว่า ประมวลกฎหมายแพ่งและพาณิชย์",
+                explanation: "เป็นชื่อเรียกกฎหมายฉบับนี้",
+                judgment: "ไม่มีข้อมูล",
             },
             {
                 id: "ccc-2",
@@ -309,6 +424,7 @@
                 section: "มาตรา 2",
                 title: "วันที่ใช้กฎหมายนี้",
                 text: "ให้ใช้ประมวลกฎหมายนี้ตั้งแต่วันที่ 1 เดือนมกราคม พุทธศักราช 2468 เป็นต้นไป",
+                explanation: "เป็นวันที่ประกาศใช้กฎหหมายฉบับนี้",
             },
             {
                 id: "ccc-3",
@@ -328,6 +444,7 @@
                 title: "ความรับผิดฐานละเมิด",
                 text: "ผู้ใดจงใจหรือประมาทเลินเล่อ ทำต่อบุคคลอื่นโดยผิดกฎหมายให้เขาเสียหายแก่ชีวิตก็ดี ร่างกายก็ดี อนามัยก็ดี เสรีภาพก็ดี ทรัพย์สินหรือสิทธิอย่างหนึ่งอย่างใดก็ดี ท่านว่าผู้นั้นทำละเมิดจำต้องใช้ค่าสินไหมทดแทนเพื่อการนั้น",
                 explanation: "เป็นหลักกฎหมายพื้นฐานของความรับผิดทางแพ่ง (ละเมิด) ประกอบด้วยองค์ประกอบสำคัญคือ 1. กระทำโดยจงใจหรือประมาทเลินเล่อ 2. โดยผิดกฎหมาย 3. ทำให้เกิดความเสียหายต่อสิทธิของผู้อื่น 4. มีความสัมพันธ์ระหว่างการกระทำและความเสียหาย"
+            
             },
             {
                 id: "ccc-453",
