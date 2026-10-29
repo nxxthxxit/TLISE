@@ -52,113 +52,19 @@
             background: #D5C286;
         }
     </style>
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Popup Notification</title>
-    <style>
-        /* สไตล์ฉากหลังมืด (Overlay) */
-        .popup-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6); /* สีดำโปร่งแสง */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        /* สไตล์กล่องป็อปอัพ */
-        .popup-box {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-            font-family: 'Sarabun', sans-serif; /* แนะนำให้ใช้ฟอนต์ไทยสวยๆ */
-            animation: scaleUp 0.3s ease-in-out;
-        }
-
-        /* ไอคอนแจ้งเตือน (สามารถเปลี่ยนหรือลบออกได้) */
-        .popup-icon {
-            font-size: 48px;
-            color: #f39c12; /* สีเหลืองแจ้งเตือน */
-            margin-bottom: 15px;
-        }
-
-        /* ข้อความในป็อปอัพ */
-        .popup-box h3 {
-            margin: 0 0 10px 0;
-            color: #333333;
-            font-size: 20px;
-        }
-
-        .popup-box p {
-            margin: 0 0 20px 0;
-            color: #666666;
-            font-size: 16px;
-            line-height: 1.5;
-        }
-
-        /* ปุ่มปิด */
-        .popup-close-btn {
-            background-color: #3498db;
-            color: #ffffff;
-            border: none;
-            padding: 10px 25px;
-            font-size: 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .popup-close-btn:hover {
-            background-color: #2980b9;
-        }
-
-        /* Animation เล็กน้อยเพื่อให้ดูนุ่มนวล */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes scaleUp {
-            from { transform: scale(0.8); }
-            to { transform: scale(1); }
-        }
-    </style>
 </head>
-<body>
+<body class="h-full flex flex-col text-neutral-700 bg-cream-100 antialiased selection:bg-cream-200 selection:text-cream-900">
 
-    <!-- โค้ดป็อปอัพ -->
-    <div id="constructionPopup" class="popup-overlay">
-        <div class="popup-box">
-            <div class="popup-icon">⚠️</div>
-            <h3>ประกาศจากผู้พัฒนา TLISE </h3>
-            <p>ขณะนี้เว็บไซต์อยู่ระหว่างการปรับปรุงข้อมูล<br>ขออภัยในความไม่สะดวก</p>
-            <button class="popup-close-btn" onclick="closePopup()">ปิด</button>
+    <!-- โค้ดป็อปอัพประกาศ -->
+    <div id="constructionPopup" class="fixed inset-0 bg-black/60 flex justify-center items-center z-[9999]">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl text-center max-w-[400px] w-[90%] font-sans">
+            <div class="text-4xl text-amber-500 mb-4">⚠️</div>
+            <h3 class="text-xl font-bold text-neutral-800 mb-2">ประกาศจากผู้พัฒนา TLISE</h3>
+            <p class="text-neutral-600 text-sm mb-6 leading-relaxed">ขณะนี้เว็บไซต์อยู่ระหว่างการปรับปรุงข้อมูล<br>ขออภัยในความไม่สะดวก</p>
+            <button onclick="closePopup()" class="bg-sky-500 hover:bg-sky-600 text-white font-medium py-2.5 px-6 rounded-lg transition-colors">ปิด</button>
         </div>
     </div>
 
-    <!-- สคริปต์สำหรับกดปิด -->
-    <script>
-        function closePopup() {
-            const popup = document.getElementById('constructionPopup');
-            popup.style.display = 'none';
-        }
-    </script>
-
-</body>
-
-</head>
-<body class="h-full flex flex-col text-neutral-700 bg-cream-100 antialiased selection:bg-cream-200 selection:text-cream-900">
     <!-- Header Section -->
     <header class="bg-white/80 backdrop-blur-md border-b border-cream-200 sticky top-0 z-40 transition-all duration-300 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
@@ -184,15 +90,15 @@
                 </span>
             </div>
         </div>
+    </header>
    
     <!-- Main Hero & Search Banner -->
     <section class="relative bg-gradient-to-b from-cream-100 via-white to-white py-12 px-4 sm:px-6 lg:px-8 border-b border-cream-200">
-        <!-- โค้ดหลักสำหรับใส่รูปภาพ -->
         <div class="max-w-4xl mx-auto text-center space-y-6">
             <span class="inline-flex items-center gap-1.5 py-1 px-4 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 border border-amber-200 shadow-sm">
                 <i class="fa-solid fa-sparkles"></i> แหล่งรวบรวมและสืบค้นกฎหมายไทย
             </span>
-            <h2 class="text-3xl sm:text-5xl font-extrabold text-neutral-1500 tracking-tight leading-tight">
+            <h2 class="text-3xl sm:text-5xl font-extrabold text-neutral-900 tracking-tight leading-tight">
                 ระบบสารสนเทศกฎหมายเพื่อการศึกษา
             </h2>
             <p class="text-sm sm:text-base text-neutral-600 max-w-2xl mx-auto font-light leading-relaxed">
@@ -235,16 +141,15 @@
     <!-- Main Content Area -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
         
-        <!-- Category Overview Cards (Shown when 'all' and no search) -->
+        <!-- Category Overview Cards -->
         <div id="categoryOverview" class="mb-12">
             <div class="flex items-center justify-between mb-6">
                 <h3 class="text-xl font-bold text-neutral-800 flex items-center gap-2">
                     <i class="fa-solid fa-layer-group text-amber-700"></i> หมวดหมู่ประมวลกฎหมาย
                 </h3>
-                <span class="text-xs text-neutral-500 font-light">ค้นหามาตราตามหวมดหมู่</span>
+                <span class="text-xs text-neutral-500 font-light">ค้นหามาตราตามหมวดหมู่</span>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                
                 <!-- CCC Card -->
                 <div onclick="filterCategory('ccc')" class="bg-white p-6 rounded-3xl border border-cream-200 hover:border-amber-300 hover:shadow-xl hover:shadow-cream-200/50 transition-all duration-300 cursor-pointer group flex flex-col justify-between">
                     <div>
@@ -308,7 +213,6 @@
                         <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
                     </div>
                 </div>
-
             </div>
         </div>
 
@@ -338,10 +242,9 @@
                 ดูมาตราทั้งหมด
             </button>
         </div>
-
     </main>
 
-    <!-- Detailed Modal -->
+    <!-- Detailed Modal (Fixed Center & No Background Scrolling) -->
     <div id="detailModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 p-4">
         <div id="modalContent" class="bg-white w-full max-w-2xl rounded-3xl border border-cream-200 shadow-2xl overflow-hidden transform scale-95 transition-transform duration-300 max-h-[90vh] flex flex-col">
             <!-- Modal Header -->
@@ -370,18 +273,10 @@
                         <!-- Explanation -->
                     </p>
                 </div>
-                <div id="modalJudgmentContainer">
-                    <h4 class="text-xs font-bold text-amber-800 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                        <i class="fa-solid fa-lightbulb"></i> คำพิพากษา
-                    </h4>
-                    <p id="modalJudgment" class="text-sm text-neutral-600 font-light leading-relaxed bg-amber-50/40 p-5 rounded-2xl border border-amber-200/50">
-                        <!-- Judgment -->
-                    </p>
-                </div>
             </div>
             <!-- Modal Footer -->
             <div class="px-6 py-4 border-t border-cream-200 bg-cream-50/50 flex items-center justify-between">
-                <span id="modalSubCategory" class="text-xs text-neutral-500 font-light">หมวดย่อยย่อย</span>
+                <span id="modalSubCategory" class="text-xs text-neutral-500 font-light">หมวดย่อย</span>
                 <button onclick="closeModal()" class="px-5 py-2.5 bg-neutral-900 text-white rounded-xl text-xs font-medium hover:bg-neutral-800 transition-all shadow-md">
                     ปิดหน้าต่าง
                 </button>
@@ -395,8 +290,6 @@
             <p class="font-medium text-neutral-700">ระบบสารสนเทศกฎหมายเพื่อการศึกษา</p>
             <p class="font-medium text-neutral-700">(Thai Law Information System for Education)</p>
             <p class="font-medium text-neutral-500 text-s pt-1">© 2026 Thai Law Information System for Education. All Rights Reserved.</p>
-            <p class="text-neutral-400 text-xs">จัดทำโดยนายณัฐกิตติ์ ตะเพียรทอง นักศึกษาคณะนิติศาสตร์ มหาวิทยาลัยรามคำแหง</p>
-            <p class="text-neutral-400 text-xs">เพื่อการศึกษา ค้นคว้า และอ้างอิงเบื้องต้นตามประมวลกฎหมาย</p>
         </div>
     </footer>
 
@@ -404,8 +297,7 @@
     <script>
         // Database of Legal Articles
         const legalData = [
-            // ป.พ.พ. (Civil and Commercial Code)
-             {
+            {
                 id: "ccc-1",
                 category: "ccc",
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
@@ -414,7 +306,7 @@
                 title: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 text: "กฎหมายนี้เรียกว่า ประมวลกฎหมายแพ่งและพาณิชย์",
                 explanation: "เป็นชื่อเรียกกฎหมายฉบับนี้",
-                judgment: "ไม่มีข้อมูล",
+                
             },
             {
                 id: "ccc-2",
@@ -424,7 +316,7 @@
                 section: "มาตรา 2",
                 title: "วันที่ใช้กฎหมายนี้",
                 text: "ให้ใช้ประมวลกฎหมายนี้ตั้งแต่วันที่ 1 เดือนมกราคม พุทธศักราช 2468 เป็นต้นไป",
-                explanation: "เป็นวันที่ประกาศใช้กฎหหมายฉบับนี้",
+
             },
             {
                 id: "ccc-3",
@@ -436,6 +328,240 @@
                 text: "ตั้งแต่วันที่ใช้ประมวลกฎหมายนี้สืบไป ให้ยกเลิกบรรดากฎหมาย กฎและข้อบังคับอื่นๆ ในส่วนที่มีบัญญัติไว้แล้วในประมวลกฎหมายนี้หรือซึ่งแย้งกับบทแห่งประมวลกฎหมายนี้",
             },
             {
+                id: "ccc-4",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 4",
+                title: "หลักการวินิจฉัยคดีตามกฎหมาย",
+                text: "(วรรค 1) กฎหมายนั้น ต้องใช้ในบรรดากรณีซึ่งต้องด้วยบทบัญญัติใด ๆ แห่งกฎหมายตามตัวอักษร หรือตามความมุ่งหมายของบทบัญญัตินั้นๆ (วรรค 2) เมื่อไม่มีบทกฎหมายที่จะยกมาปรับคดีได้ ให้วินิจฉัยคดีนั้นตามจารีตประเพณีแห่งท้องถิ่น ถ้าไม่มีจารีตประเพณีเช่นว่านั้น ให้วินิจฉัยคดีอาศัยเทียบบทกฎหมายที่ใกล้เคียงอย่างยิ่ง และถ้าบทกฎหมายเช่นนั้นก็ไม่มีด้วย ให้วินิจฉัยตามหลักกฎหมายทั่วไป",
+            },
+            {
+                id: "ccc-5",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 5",
+                title: "ใช้สิทธิโดยสุจริต",
+                text: "ในการใช้สิทธิแห่งตนก็ดี ในการชำระหนี้ก็ดี บุคคลทุกคนต้องกระทำโดยสุจริต",
+            },
+            {
+                id: "ccc-6",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 6",
+                title: "สันนิษฐานว่าทุกคนกระทำโดยสุจริต",
+                text: "ให้สันนิษฐานไว้ก่อนว่า บุคคลทุกคนกระทำการโดยสุจริต",
+            },
+            {
+                id: "ccc-7",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 7",
+                title: "ดอกเบี้ยกรณีที่ไม่ได้ตกลงกันไว้ก่อน",
+                text: "(วรรค 1) ถ้าจะต้องเสียดอกเบี้ยแก่กันและมิได้กำหนดอัตราดอกเบี้ยไว้โดยนิติกรรมหรือโดยบทกฎหมายอันชัดแจ้ง ให้ใช้อัตราร้อยละ 3 ต่อปี (วรรค 2) อัตราตามวรรค 1 อาจปรับเปลี่ยนให้ลดลงหรือเพิ่มขึ้นเพื่อให้สอดคล้องกับสภาพเศรษฐกิจของประเทศไทยได้โดยตราเป็นพระราชกฤษฎีกา โดยปกติให้กระทรวงการคลังพิจารณาทบทวนทุกสามปี ให้ใกล้เคียงกับอัตราเฉลี่ยระหว่างอัตราดอกเบี้ยเงินฝากกับอัตราดอกเบี้ยเงินให้กู้ยืมของธนาคารพาณิชย์",
+            },
+            {
+                id: "ccc-8",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 8",
+                title: "ความหมายของคำว่า เหตุสุดวิสัย",
+                text: "คำว่า เหตุสุดวิสัย หมายความว่า เหตุใดๆ อันจะเกิดขึ้นก็ดี จะให้ผลพิบัติก็ดี เป็นเหตุที่ไม่อาจป้องกันได้แม้ทั้งบุคคลผู้ต้องประสบหรือใกล้จะต้องประสบเหตุนั้นจะได้จัดการระมัดระวังตามสมควรอันพึงคาดหมายได้จากบุคคลในฐานะและภาวะเช่นนั้น",
+            },
+            {
+                id: "ccc-9",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 9",
+                title: "กฎหมายบังคับให้ทำเป็นหนังสือ การลงลายมือชื่อในเอกสาร",
+                text: "(วรรค 1) เมื่อมีกิจอันใดซึ่งกฎหมายบังคับให้ทำเป็นหนังสือ บุคคลผู้จะต้องทำหนังสือไม่จำเป็นต้องเขียนเอง แต่หนังสือนั้นต้องลงลายมือชื่อของบุคคลนั้น (วรรค 2) ลายพิมพ์นิ้วมือ แกงได ตราประทับ หรือเครื่องหมายอื่นทำนองเช่นว่านั้นที่ทำลงในเอกสารแทนการลงลายมือชื่อ หากมีพยานลงลายมือชื่อรับรองไว้ด้วย 2 คนแล้วใก้ถือเสมอกับการลงลายมือชื่อ (วรรค 3) ความในวรรค 2 ไม่ใช้บังคับแก่การลงลายพิมพ์นิ้วมือ แกงได ตราประทับหรือเครื่องหมายอื่นทำนองเช่นว่านั้น ซึ่งทำลงในเอกสารที่ทำต่อหน้าพนักงานเจ้าหน้าที่",
+            },
+            {
+                id: "ccc-10",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 10",
+                title: "เอกสารตีความได้ 2 นัย",
+                text: "เมื่อความข้อใดข้อหนึ่งในเอกสารอาจตีความได้ 2 นัย นัยไหนจะทำให้เป็นผลบังคับได้ ให้ถือเอาตามนัยนั้นดีกว่าที่จะถือเอานัยที่ไร้ผล"
+            },
+             {
+                id: "ccc-11",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 11",
+                title: "ตีความข้อสงสัยที่คุณเป็นคุณแก่ฝ่ายที่จะต้องเสียมูลหนี้",
+                text: "ในกรณีที่มีข้อสงสัย ให้ตีความไปในทิศทางที่เป็นคุณแก่คู่กรณีฝ่ายซึ่งจะเป็นผู้ต้องเสียในมูลหนี้นั้น"
+            },
+             {
+                id: "ccc-12",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 12",
+                title: "จำนวนเงินหรือปริมาณในเอกสารเป็นตัวเลขต่างกับตัวอักษร ให้ถือเอาตัวอักษร",
+                text: "ในกรณีที่จำนวนเงินหรือปริมาณในเอกสารแสดงไว้ทั้งตัวอักษรและตัวเลข ถ้าตัวอักษรกับตัวเลขไม่ตรงกัน และมิอาจหยั่งทราบเจตนาอันแท้จริงได้ ให้ถือเอาจำนวนเงินหรือปริมาณที่เป็นตัวอักษรเป็นประมาณ"
+            },
+             {
+                id: "ccc-13",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 13",
+                title: "จำนวนเงินหรือปริมาณในเอกสารเป็นตัวอักษรและตัวเลขหลายแห่งต่างกัน ถือเอาจำนวนที่น้อยที่สุด",
+                text: "ถ้าจำนวนเงินหรือปริมาณในเอกสารแสดงไว้เป็นตัวอักษรหลายแห่งหรือเป็นตัวเลขหลายแห่ง แต่ที่แสดงไว้หลายแห่งนั้นไม่ตรงกัน และมิอาจหยั่งทราบเจตนาอันแท้จริงได้ ให้ถือเอาจำนวนเงินหรือปริมาณที่น้อยที่สุดเป็นประมาณ"
+            },
+             {
+                id: "ccc-14",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 14",
+                title: "เอกสารทำขึ้นหลายภาษา ข้อความต่างกัน ให้ถือเอาภาษาไทย",
+                text: "ในกรณีที่เอกสารทำขึ้นไว้หลายภาษา ไม่ว่าจะเป็นฉบับเดียวกันหรือหลายฉบับก็ตามโดยมีภาษาไทยด้วย ถ้าข้อความในหลายภาษานั้นแตกต่างกัน และมิอาจหยั่งทราบเจตนาของคู่กรณีได้ว่าจะใช้ภาษาใดบังคับ ให้ถือตามภาษาไทย"
+            },
+             {
+                id: "ccc-15",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 15",
+                title: "สภาพบุคคลเมื่อเริ่มต้นและสิ้นสุด",
+                text: "(วรรค 1) สภาพบุคคลย่อมเริ่มแต่เมื่อคลอดแล้วอยู่รอดเป็นทารก และสิ้นสุดลงเมื่อตาย (วรรค 2) ทารกในครรภ์มารดาก็สามารถมีสิทธิต่างๆ ได้ หากว่าภายหลังคลอดแล้วอยู่รอดเป็นทารก"
+            },
+             {
+                id: "ccc-16",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 16",
+                title: "การนับอายุบุคคล",
+                text: "การนับอายุของบุคคล ให้เริ่มนับแต่วันเกิด ในกรณีที่รู้ว่าเกิดในเดือนใดแต่ไม่รู้วันที่เกิด ให้นับวันที่หนึ่งแห่งเดือนนั้นเป็นวันเกิด แต่ถ้าพ้นวิสัยที่จะหยั่งรู้เดือนและวันเกิดของบุคคลนั้น ใก้นับอายุของบุคคลนั้นตั้งแต่วันต้นปีปฏิทิน ซึ่งเป็นปีที่บุคคลนั้นเกิด"
+            },
+             {
+                id: "ccc-17",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 17",
+                title: "บุคคลหลายคนตายในภยันตรายร่วมกัน ถือว่าตายพร้อมกัน",
+                text: "ในกรณีบุคคลหลายคนตายในภยันตรายร่วมกัน ถ้าเป็นการพ้นวิสัยที่กำหนดได้ว่าคนไหนตายก่อนหลัง ให้ถือว่าตายพร้อมกัน"
+            },
+             {
+                id: "ccc-18",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 18",
+                title: "สิทธิในการใช้ชื่อ",
+                text: "สิทธิของบุคคลในการที่จะใช้นามอันชอบที่จะใช้ได้นั้น ถ้ามีบุคคลอื่นโต้แย้งก็ดี หรือบุคคลผผู้เป็นเจ้าของนามนั้นต้องเสื่อมเสียผลประโยชน์เพราะการที่มีผู้อื่นมาใช้นามเดียวกันโดยมิได้รับอำนาจให้ใช้ได้ก็ดี บุคคลผู้เป็นเจ้าของนามจะเรียกให้บุคคลนั้นระงับความเสียหายก็ได้ ถ้าและเป็นที่พึงวิตกว่าจะต้องเสียหายอยู่สืบไปจะร้องขอต่อศาลให้สั่งห้ามก็ได้"
+            },
+             {
+                id: "ccc-19",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 19",
+                title: "บรรลุนิติภาวะเมื่ออายุ 20 ปีบริบูรณ์",
+                text: "บุคคลย่อมพ้นจากภาวะผู้เยาว์และบรรลุนิติภาวะเมื่อมีอายุ 20 ปีบริบูรณ์"
+            },
+             {
+                id: "ccc-20",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 20",
+                title: "ผู้เยาว์บรรลุนิติภาวะเมื่อสมรส",
+                text: "ผู้เยาว์ย่อมบรรลุนิติภาวะเมื่อทำการสมรส หากการสมรสนั้นได้ทำตามบทบัญญัติมาตรา 1448"
+            },
+            {
+                id: "ccc-21",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 21",
+                title: "ผู้เยาว์ทำนิติกรรมต้องได้รับคววามยินยอมจากผู้แทนโดยชอบธรรม",
+                text: "ผู้เยาว์จะทำนิติกรรมใดๆ ต้องได้รับความยินยอมของผู้แทนโดยชอบธรรมก่อน การใดๆ ที่ผู้เยาว์ได้ทำลงปราศจากความยินยอมเช่นว่านั้นเป็นโมฆียะ เว้นแต่จะบัญญัติไว้เป็นอย่างอื่น"
+            },
+            {
+                id: "ccc-22",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 22",
+                title: "ผู้เยาว์มีสิทธิเพื่อจะได้สิทธิ หรือหลุดพ้นจากหน้าที่ได้",
+                text: "ผู้เยาว์อาจทำการใดๆ ได้ทั้งสิ้น หากเป็นเพียงเพื่อจะได้ไปซึ่งสิทธิอันใดอันหนึ่ง หรือเป็นการเพื่อให้หลุดพ้นจากหน้าที่อันใดอันหนึ่ง"
+            },
+            {
+                id: "ccc-23",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 23",
+                title: "ผู้เยาว์ต้องทำเองเฉพาะตัวได้",
+                text: "ผู้เยาว์อาจทำการใดๆ ได้ทั้งสิ้น ซึ่งเป็นการต้องทำเองเฉพาะตัว"
+            },
+            {
+                id: "ccc-24",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 24",
+                title: "ผู้เยาว์กระทำการดำรงชีพได้",
+                text: "ผู้เยาว์อาจทำการใดๆ ได้ทั้งสิ้น ซึ่งเป็นการสมแก่ฐานานุรูปแห่งตนและเป็นการอันจำเป็นในการดำรงชีพตามสมควร"
+            },
+            {
+                id: "ccc-25",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 25",
+                title: "ผู้เยาว์ทำพินัยกรรมได้เมื่ออายุ 15 ปีบริบูรณ์",
+                text: "ผู้เยาว์อาจทำพินัยกรรมได้เมื่ออายุ 15 ปีบริบูรณ์"
+            },
+            {
+                id: "ccc-26",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 26",
+                title: "ผู้แทนโดยชอบธรรมอนุญาตให้ผู้เยาว์จำหน่ายทรัพย์สิน",
+                text: "ถ้าผู้แทนโดยชอบธรรมอนุญาตให้ผู้เยาว์จำหน่ายทรัพย์สินเพื่อการอันใดอันหนึ่งอันได้ระบุไว้ ผู้เยาว์จะจำหน่ายทรัพย์สินนั้นเป็นประการใดภายในขอบเขตของการที่ระบุไว้นั้นด็ทำได้ตามใจสมัคร อนึ่ง ถ้าได้รับอนุญาตให้จำหน่ายทรัพย์โดยมิได้ระบุว่าเพื่อการอันใด ผู้เยาว์ก็จำหน่ายได่ตามใจสมัคร"
+            },
+            {
+                id: "ccc-27",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 27",
+                title: "ผู้แทนโดยชอบธรรมให้ความยินยอมให้ผู้เยาว์ประกอบธุรกิจการค้า หรือทำสัญญาเป็นลูกจ้าง",
+                text: "(วรรค 1) ผู้แทนโดยชอบธรรมอาจให้ความยินยอมแก่ผู้เยาว์ในการประกอบธุรกิจทางการค้าหรือธุรกิจอื่น หรือในการทำสัญญาเป็นลูกจ้างในสัญญาจ้างแรงงานได้ ในกรณที่ผู้แทนโดยชอบธรรมไม่ให้ความยินยอมโดยไม่มีเหตุอันสมควร ผู้เยาว์อาจร้องขอต่อศาลให้สั่งอนุญาตได้ (วรรค 2) ในความเกี่ยวพันกับการประกอบธุรกิจหรือการจ้างแรงงานตามวรรค 1 ให้ผู้เยาว์มีฐานะเสมือนดังบุคคลซึ่งบรรลุนิติภาวะแล้ว (วรรค 3) ถ้าการประกอบธุรกิจหรือการทำงานที่ได้รับความยินยอมแล้วหรือที่ได้รับอนุญาตตามวรรค 1 ก่อให้เกิดความเสียหายถึงขนาดหรือเสื่อมเสียแก่ผู้เยาว์ ผู้แทนโดยชอบธรรมอาจบอกเลิกความยินยอมที่ได้ให้แก่ผู้เยาว์เสียได้ หรือในกรณีที่ศาลอนุญาต ผู้แทนโดยชอบธรรมอาจร้องขอต่อศาลให้เพิกถอนการอนุญาตที่ได้ให้แก่ผู้เยาว์นั้นเสียได้ (วรรค 4) ในกรณีที่ผู้แทนโดยชอบธรรมบอกเลิกความยินยอมโดยไม่มีเหตุอันสมควร ผู้เยาว์อาจร้องขอต่อศาลให้เพิกถอนการบอกเลิกความยินยอมของผู้แทนโดยชอบธรรมได้ (วรรค 5) การบอกเลิกความยินยอมโดยผู้แทนโดยชอบธรรมหรือการเพิกถอนการอนุญาตโดยศาล ย่่อมทำให้ฐานะเสมือนดังบุคคลซึ่งบรรลุนิติภาวะแล้วของผู้เยาว์สิ้นสุดลง แต่ไม่กระทบกระเทือนการใดๆ ที่ผู้เยาว์ได้กระทำไปแล้วก่อนมีการบอกเลิกความยินยอมหรือการเพิกถอนการอนุญาต"
+            },
+            {
+                id: "ccc-28",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 28",
+                title: "ศาลสั่งให้บุคคลวิกลจริตเป็นคนไร้ความสามารถ",
+                text: "(วรรค 1) บุคคลวิกลจริตผู้ใด ถ้าคู่สมรสก็ดี ผู้บุพการี กล่าวคือ บิดา มารดา ปู่ย่า ตายาย ทวดก็ดี ผู้สืบสันดาน กล่าวคือ ลูก หลาน เหลน ลื่อก็ดี ผู้ปกครองหรือผู้พิทักษ์ก็ดี ผู้ซึ่งปกครองดูแลบุคคลนั้นอยู่ก็ดี หรือพนักงานอัยการก็ดี ร้องขอต่อศาลใหสั่งให้บุคคลวิกลจริตผู้นั้นเป็นคนไร้ความสามารถ ศาลจะสั่งให้บุคคลวิกลจริตผู้นั้นเป็นคนไร้ความสามารถก็ได้ (วรรค 2) บุคคลซึ่งศาลสั่งให้เป็นคนไร้ความสามารถตามวรรค 1 ต้องจัดให้อยู่ในความอนุบาล การแต่งตั้งผู้อนุบาล อำนาขหน้าที่ของผู้อนุบาลและการสิ้นสุดลงของความเป็นผู้อนุบาล ให้เป็นไปตามบทบัญญัติบรรพ 5 แห่งประมวลกฎหมายนี้ (วรรค 3) คำสั่งของศาลมาตรานี้ ให้ประกาศในราชกิจจานุเบกษา"
+            },
+            {
+                id: "ccc-29",
+                category: "ccc",
+                categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
+                badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
+                section: "มาตรา 29",
+                title: "บุคคลไร้ความสามารถ ทำนิติกรรมนั้นเป็นโมฆียะ",
+                text: "การใดๆ อันบุคคลซึ่งศาลสั่งให้เป็นคนไร้ความสามารถได้กระทำลง การนั้นเป็นโมฆียะ"
+            },
+            {
                 id: "ccc-420",
                 category: "ccc",
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
@@ -444,7 +570,6 @@
                 title: "ความรับผิดฐานละเมิด",
                 text: "ผู้ใดจงใจหรือประมาทเลินเล่อ ทำต่อบุคคลอื่นโดยผิดกฎหมายให้เขาเสียหายแก่ชีวิตก็ดี ร่างกายก็ดี อนามัยก็ดี เสรีภาพก็ดี ทรัพย์สินหรือสิทธิอย่างหนึ่งอย่างใดก็ดี ท่านว่าผู้นั้นทำละเมิดจำต้องใช้ค่าสินไหมทดแทนเพื่อการนั้น",
                 explanation: "เป็นหลักกฎหมายพื้นฐานของความรับผิดทางแพ่ง (ละเมิด) ประกอบด้วยองค์ประกอบสำคัญคือ 1. กระทำโดยจงใจหรือประมาทเลินเล่อ 2. โดยผิดกฎหมาย 3. ทำให้เกิดความเสียหายต่อสิทธิของผู้อื่น 4. มีความสัมพันธ์ระหว่างการกระทำและความเสียหาย"
-            
             },
             {
                 id: "ccc-453",
@@ -476,8 +601,6 @@
                 text: "ภายในบังคับแห่งกฎหมาย เจ้าของทรัพย์สินมีสิทธิใช้สอยและจำหน่ายทรัพย์สินของตนและได้ซึ่งดอกผลแห่งทรัพย์สินนั้น ทั้งมีสิทธิติดตามและเอาคืนซึ่งทรัพย์สินของตนจากบุคคลผู้ไม่มีสิทธิจะยึดถือไว้ และมีสิทธิขัดขวางมิให้ผู้อื่นสอดเข้าเกี่ยวข้องกับทรัพย์สินนั้นโดยมิชอบด้วยกฎหมาย",
                 explanation: "มาตราหลักเรื่องกรรมสิทธิ์ ให้สิทธิเจ้าของในการครอบครอง ใช้สอย ได้ดอกผล จำหน่าย ติดตามเอาคืน และขัดขวางผู้สอดเข้าเกี่ยวข้องโดยมิชอบ"
             },
-
-            // ป.อ. (Criminal Code)
             {
                 id: "pc-288",
                 category: "pc",
@@ -499,49 +622,15 @@
                 explanation: "องค์ประกอบความผิดฐานลักทรัพย์ คือการเอาทรัพย์ไปโดยทุจริต (เจตนาแสวงหาประโยชน์ที่มิควรได้โดยชอบด้วยกฎหมายสำหรับตนเองหรือผู้อื่น) โดยไม่มีการใช้กำลังประทุษร้าย"
             },
             {
-                id: "pc-59",
-                category: "pc",
-                categoryName: "ประมวลกฎหมายอาญา",
-                badgeClass: "bg-rose-50 text-rose-700 border border-rose-200",
-                section: "มาตรา 59",
-                title: "ความรับผิดทางอาญา (เจตนา / ประมาท)",
-                text: "บุคคลจะต้องรับผิดทางอาญาต่อเมื่อได้กระทำโดยเจตนา เว้นแต่จะได้กระทำโดยประมาท ในกรณีที่กฎหมายบัญญัติให้ต้องรับผิดเมื่อกระทำโดยประมาท หรือเว้นแต่ในกรณีที่กฎหมายบัญญัติไว้โดยแจ้งชัดให้ต้องรับผิดโดยไม่ต้องคำนึงถึงเจตนา...",
-                explanation: "หลักการสำคัญทางอาญาว่า 'ไม่มีเจตนา ไม่มีโทษทางอาญา' ยกเว้นกฎหมายกำหนดไว้ชัดเจนว่าเป็นความผิดแบบประมาทหรือความผิดลหุโทษบางประเภท"
-            },
-            {
-                id: "pc-68",
-                category: "pc",
-                categoryName: "ประมวลกฎหมายอาญา",
-                badgeClass: "bg-rose-50 text-rose-700 border border-rose-200",
-                section: "มาตรา 68",
-                title: "การป้องกันตัวโดยชอบด้วยกฎหมาย",
-                text: "ผู้ใดจำต้องกระทำการใดเพื่อป้องกันحقของตนหรือของผู้อื่น ให้พ้นภยันตรายซึ่งเกิดจากการประทุษร้ายอันละเมิดต่อกฎหมายและเป็นภยันตรายใกล้จะถึง ถ้าได้กระทำพอสมควรแก่เหตุ การกระทำนั้นเป็นการป้องกันโดยชอบด้วยกฎหมาย ผู้นั้นไม่มีความผิด",
-                explanation: "สิทธิในการป้องกันตัวเมื่อถูกประทุษร้ายผิดกฎหมายใกล้จะถึง โดยการกระทำต้อง 'พอสมควรแก่เหตุ' หากทำเกินกว่าเหตุอาจมีความผิดแต่ศาลอาจลงโทษน้อยเพียงใดก็ได้"
-            },
-
-            // ป.วิ.พ. (Civil Procedure Code)
-            {
                 id: "cpc-55",
                 category: "cpc",
                 categoryName: "ประมวลกฎหมายวิธีพิจารณาความแพ่ง",
                 badgeClass: "bg-sky-50 text-sky-700 border border-sky-200",
                 section: "มาตรา 55",
                 title: "สิทธิในการเสนอคำฟ้องคดีแพ่ง",
-                text: "เมื่อมีข้อโต้แย้งเกิดขึ้นเกี่ยวกับสิทธิหรือหน้าที่ของบุคคลใดตามกฎหมายแพ่ง หรือบุคคลใดจะต้องใช้สิทธิทางศาล บุคคลนั้นมีสิทธิเสนอคำฟ้องของตนต่อศาลที่competent เพื่อวินิจฉัยชี้ขาด...",
+                text: "เมื่อมีข้อโต้แย้งเกิดขึ้นเกี่ยวกับสิทธิหรือหน้าที่ของบุคคลใดตามกฎหมายแพ่ง หรือบุคคลใดจะต้องใช้สิทธิทางศาล บุคคลนั้นมีสิทธิเสนอคำฟ้องของตนต่อศาลเพื่อวินิจฉัยชี้ขาด...",
                 explanation: "เงื่อนไขเบื้องต้นในการฟ้องคดีแพ่งคือต้อง 'มีข้อโต้แย้งเกิดขึ้น' เกี่ยวกับสิทธิหรือหน้าที่เสียก่อน จึงจะมีอำนาจฟ้องคดีต่อศาลได้"
             },
-            {
-                id: "cpc-142",
-                category: "cpc",
-                categoryName: "ประมวลกฎหมายวิธีพิจารณาความแพ่ง",
-                badgeClass: "bg-sky-50 text-sky-700 border border-sky-200",
-                section: "มาตรา 142",
-                title: "ขอบเขตคำพิพากษาของศาลแพ่ง",
-                text: "คำพิพากษาหรือคำสั่งของศาลที่วินิจฉัยชี้ขาดคดีต้องอยู่ภายใต้บังคับแห่งบทบัญญัติแห่งมาตรา 148 ว่าด้วยเรื่องคดีที่พิพากษาแล้ว และต้องไม่พิพากษาหรือทำคำสั่งเกินกว่าหรือนอกจากที่ปรากฏในคำฟ้อง",
-                explanation: "หลักการ 'ห้ามพิพากษาเกินคำขอ' ศาลแพ่งจะพิพากษาให้เกินกว่าที่โจทก์มีคำขอมาในฟ้องไม่ได้ เว้นแต่เป็นคดีที่มีกฎหมายข้อยกเว้นไว้โดยเฉพาะ"
-            },
-
-            // ป.วิ.อาญา (Criminal Procedure Code)
             {
                 id: "cpcc-2",
                 category: "cpcc",
@@ -550,17 +639,7 @@
                 section: "มาตรา 2 (16)",
                 title: "คำร้องทุกข์ในคดีอาญา",
                 text: "'คำร้องทุกข์' หมายความถึงการที่ผู้เสียหายได้กล่าวหาต่อเจ้าหน้าที่ผู้มีอำนาจว่ามีผู้กระทำความผิดขึ้น จะรู้ตัวผู้กระทำความผิดหรือไม่ก็ตาม ซึ่งได้กระทำ ฯลฯ และการกล่าวหาเช่นนั้นได้กล่าวโดยมีเจตนาจะให้ผู้กระทำความผิดได้รับโทษ",
-                explanation: "นิยามสำคัญของผู้เสียหายและคำร้องทุกข์ ซึ่งในความผิดอันยอมความได้ (เช่น หมิ่นประมาท ยักยอก ฉ้อโกงบางประเภท) ต้องมีคำร้องทุกข์โดยชอบด้วยกฎหมายภายใน 3 เดือนนับแต่วันรู้เรื่องและรู้ตัวผู้กระทำผิด มิฉะนั้นคดีขาดอายุความ"
-            },
-            {
-                id: "cpcc-134",
-                category: "cpcc",
-                categoryName: "ประมวลกฎหมายวิธีพิจารณาความอาญา",
-                badgeClass: "bg-indigo-50 text-indigo-700 border border-indigo-200",
-                section: "มาตรา 134",
-                title: "การสอบสวนผู้ต้องหาโดยพนักงานสอบสวน",
-                text: "เมื่อผู้ต้องหาถูกควบคุมหรือมา ฯลฯ ให้พนักงานสอบสวนแจ้งข้อหาให้ทราบ และแจ้งถึงสิทธิที่จะให้การหรือไม่ก็ได้ สิทธิในการพบและปรึกษาทนายความ...",
-                explanation: "คุ้มครองสิทธิผู้ต้องหาในชั้นสอบสวน ต้องแจ้งข้อหา แจ้งสิทธิในการให้การ และสิทธิในการมีทนายความร่วมฟังการสอบสวนตามรัฐธรรมนูญและ ป.วิ.อาญา"
+                explanation: "นิยามสำคัญของผู้เสียหายและคำร้องทุกข์ ซึ่งในความผิดอันยอมความได้ต้องมีคำร้องทุกข์โดยชอบด้วยกฎหมายภายใน 3 เดือนนับแต่วันรู้เรื่องและรู้ตัวผู้กระทำผิด"
             }
         ];
 
@@ -572,6 +651,12 @@
             renderArticles(legalData);
         });
 
+        // Close Pop-up Announcement
+        function closePopup() {
+            const popup = document.getElementById('constructionPopup');
+            popup.style.display = 'none';
+        }
+
         // Handle Search Input
         function handleSearch() {
             const input = document.getElementById('searchInput');
@@ -581,7 +666,6 @@
 
             if (searchQuery.length > 0) {
                 clearBtn.classList.remove('hidden');
-                // Hide category overview when searching to focus on search results
                 overview.classList.add('hidden');
             } else {
                 clearBtn.classList.add('hidden');
@@ -589,7 +673,6 @@
                     overview.classList.remove('hidden');
                 }
             }
-
             filterAndRender();
         }
 
@@ -608,7 +691,6 @@
         function filterCategory(category) {
             currentCategory = category;
             
-            // Update active pill UI
             const pills = document.querySelectorAll('.cat-pill');
             pills.forEach(p => {
                 p.className = "cat-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-white text-neutral-700 border border-cream-300 hover:bg-cream-50";
@@ -622,7 +704,6 @@
             } else {
                 overview.classList.add('hidden');
             }
-
             filterAndRender();
         }
 
@@ -658,7 +739,6 @@
                 return matchCategory && matchSearch;
             });
 
-            // Update Section Title & Result Count
             const sectionTitle = document.getElementById('sectionTitle');
             if (currentCategory === 'all') {
                 sectionTitle.innerHTML = `<i class="fa-solid fa-list text-amber-700"></i> รายการมาตราทั้งหมด`;
@@ -666,14 +746,13 @@
                 const catNames = {
                     'ccc': 'ประมวลกฎหมายแพ่งและพาณิชย์ (ป.พ.พ.)',
                     'pc': 'ประมวลกฎหมายอาญา (ป.อ.)',
-                    'cpc': 'ประมวลกฎหมายวิธีพิจารณาความแพ่ง (ป.วิ.พ.)',
+                    'cpc': 'ประมวลกฎหมายวิธีพิจารณาความแพ่ง (ป.วิ.แพ่ง)',
                     'cpcc': 'ประมวลกฎหมายวิธีพิจารณาความอาญา (ป.วิ.อาญา)'
                 };
                 sectionTitle.innerHTML = `<i class="fa-solid fa-book-bookmark text-amber-700"></i> หมวด: ${catNames[currentCategory]}`;
             }
 
             document.getElementById('resultCount').innerText = `แสดงผล ${filtered.length} มาตรา`;
-
             renderArticles(filtered);
         }
 
@@ -709,7 +788,7 @@
             `).join('');
         }
 
-        // Open Modal with specific item data
+        // Open Modal and Lock Body Scroll Position
         function openModal(id) {
             const item = legalData.find(d => d.id === id);
             if (!item) return;
@@ -718,7 +797,7 @@
             document.getElementById('modalCategoryBadge').className = `text-xs font-semibold px-3 py-1 rounded-lg uppercase tracking-wider ${item.badgeClass}`;
             document.getElementById('modalTitle').innerText = item.title;
             document.getElementById('modalText').innerText = item.text;
-            document.getElementById('modalExplanation').innerText = item.explanation;
+            document.getElementById('modalExplanation').innerText = item.explanation || 'ไม่มีคำอธิบายเพิ่มเติม';
             document.getElementById('modalSubCategory').innerText = item.categoryName;
 
             const modal = document.getElementById('detailModal');
@@ -729,10 +808,12 @@
                 content.classList.remove('scale-95');
                 content.classList.add('scale-100');
             }, 10);
+            
+            // ป้องกันไม่ให้หน้าจอหลักเลื่อนขึ้นลงขณะเปิด Modal
             document.body.style.overflow = 'hidden';
         }
 
-        // Close Modal
+        // Close Modal and Restore Body Scroll
         function closeModal() {
             const modal = document.getElementById('detailModal');
             const content = document.getElementById('modalContent');
@@ -740,6 +821,8 @@
             content.classList.remove('scale-100');
             content.classList.add('scale-95');
             modal.classList.add('opacity-0', 'pointer-events-none');
+            
+            // คืนค่าให้หน้าจอสามารถเลื่อนได้ปกติ
             document.body.style.overflow = 'auto';
         }
 
