@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>ระบบสารสนเทศกฎหมายไทย - ค้นหามาตราและรายละเอียดประมวลกฎหมาย</title>
-    <meta name="description" content="ค้นหาข้อมูลเกี่ยวกับมาตราและรายละเอียดของประมวลกฎหมายไทยแบบรวดเร็ว">
+    <meta name="description" content="ค้นหาข้อมูลเกี่ยวกับมาตรา บรรพ หมวด และรายละเอียดของประมวลกฎหมายไทยแบบรวดเร็ว">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -54,38 +54,58 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
         .animate-fade-in {
             animation: fadeIn 0.3s ease-out forwards;
+        }
+        .animate-float {
+            animation: floatSlow 3s ease-in-out infinite;
+        }
+        .animate-pulse-glow {
+            animation: pulseGlow 2s ease-in-out infinite;
         }
     </style>
 </head>
 <body class="h-full flex flex-col text-neutral-700 bg-cream-100 antialiased selection:bg-cream-200 selection:text-cream-900">
 
-    <!-- Toast Notification สำหรับแจ้งเตือนการคัดลอก -->
+    <!-- Toast Notification -->
     <div id="toast" class="fixed bottom-6 right-6 z-[9999] transform translate-y-24 opacity-0 transition-all duration-300 bg-neutral-900 text-white px-5 py-3 rounded-2xl shadow-xl flex items-center space-x-3 text-sm">
         <i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
-        <span id="toastMessage">คัดลอกมาตราเรียบร้อยแล้ว</span>
+        <span id="toastMessage">การดำเนินการสำเร็จ</span>
     </div>
 
     <!-- Header Section -->
     <header class="bg-white/80 backdrop-blur-md border-b border-cream-200 sticky top-0 z-40 transition-all duration-300 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <div class="flex items-center space-x-3 cursor-pointer" onclick="resetView()">
-                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-100 to-cream-200 border border-cream-300 flex items-center justify-center shadow-inner text-amber-800 transition-transform hover:scale-105">
-                    <i class="fa-solid fa-scale-balanced text-xl"></i>
+            <!-- Website Logo & Branding with Gimmick -->
+            <div class="flex items-center space-x-3 cursor-pointer group" onclick="resetView()">
+                <div class="relative w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-100 via-amber-200 to-cream-300 border border-amber-300 flex items-center justify-center shadow-md text-amber-900 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3">
+                    <i class="fa-solid fa-scale-balanced text-xl animate-float"></i>
+                    <div class="absolute -top-1 -right-1 w-4 h-4 bg-amber-600 rounded-full border-2 border-white flex items-center justify-center text-[8px] text-white">
+                        <i class="fa-solid fa-gavel"></i>
+                    </div>
                 </div>
                 <div>
-                    <h1 class="text-lg sm:text-xl font-bold text-neutral-800 tracking-tight">ระบบสารสนเทศกฎหมายเพื่อการศึกษา</h1>
-                    <p class="text-xs text-neutral-500 font-light">Thai Law Information System for Education</p>
+                    <h1 class="text-lg sm:text-xl font-bold text-neutral-800 tracking-tight group-hover:text-amber-800 transition-colors">ระบบสารสนเทศกฎหมายเพื่อการศึกษา</h1>
+                    <p class="text-xs text-neutral-500 font-light flex items-center gap-1">
+                        <span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse-glow"></span> 
+                        Thai Law Information System for Education
+                    </p>
                 </div>
             </div>
             
-            <!-- Quick Navigation & Bookmarks Toggle -->
             <div class="flex items-center space-x-3">
-                <button onclick="toggleBookmarksView()" id="bookmarkNavBtn" class="flex items-center space-x-2 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all shadow-sm">
-                    <i class="fa-solid fa-bookmark text-amber-600"></i>
+                <button onclick="toggleBookmarksView()" id="bookmarkNavBtn" class="flex items-center space-x-2 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all shadow-sm hover:scale-105 active:scale-95">
+                    <i class="fa-solid fa-bookmark text-amber-600 animate-pulse"></i>
                     <span>มาตราโปรดของฉัน</span>
-                    <span id="bookmarkBadgeCount" class="bg-amber-800 text-white text-[10px] px-2 py-0.5 rounded-full">0</span>
+                    <span id="bookmarkBadgeCount" class="bg-amber-800 text-white text-[10px] px-2 py-0.5 rounded-full shadow-sm">0</span>
                 </button>
             </div>
         </div>
@@ -101,7 +121,7 @@
                 ระบบสารสนเทศกฎหมายเพื่อการศึกษา
             </h2>
             <p class="text-sm sm:text-base text-neutral-600 max-w-2xl mx-auto font-light leading-relaxed">
-                ค้นหามาตรา ป.พ.พ., ป.อ., ป.วิ.แพ่ง และ ป.วิ.อาญา รวดเร็ว แม่นยำ ทันสมัย
+                ค้นหามาตรา บรรพ หมวด และรายละเอียดประมวลกฎหมายไทยอย่างรวดเร็วและแม่นยำ
             </p>
 
             <!-- Search Input Box -->
@@ -109,7 +129,7 @@
                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-neutral-400">
                     <i class="fa-solid fa-magnifying-glass text-lg"></i>
                 </div>
-                <input type="text" id="searchInput" oninput="handleSearch()" placeholder="ค้นหาด้วยเลขมาตรา (เช่น มาตรา 420, 1336, 288) หรือคำสำคัญ..." 
+                <input type="text" id="searchInput" oninput="handleSearch()" placeholder="ค้นหาด้วยเลขมาตรา, บรรพ, หมวด หรือคำสำคัญ..." 
                     class="w-full pl-12 pr-12 py-4 bg-white border border-cream-300 rounded-2xl text-neutral-800 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-amber-300 focus:border-amber-400 shadow-lg shadow-cream-200/50 transition-all text-sm sm:text-base">
                 <button onclick="clearSearch()" id="clearBtn" class="absolute inset-y-0 right-0 pr-4 flex items-center text-neutral-400 hover:text-neutral-600 hidden">
                     <i class="fa-solid fa-circle-xmark text-lg"></i>
@@ -144,14 +164,14 @@
         <div id="categoryOverview" class="mb-12">
             <div class="flex items-center justify-between mb-6">
                 <h3 class="text-xl font-bold text-neutral-800 flex items-center gap-2">
-                    <i class="fa-solid fa-layer-group text-amber-700"></i> หมวดหมู่ประมวลกฎหมาย
+                    <i class="fa-solid fa-layer-group text-amber-700 animate-bounce"></i> หมวดหมู่ประมวลกฎหมายหลัก
                 </h3>
-                <span class="text-xs text-neutral-500 font-light">เลือกหมวดหมู่เพื่อดูมาตราสำคัญ</span>
+                <span class="text-xs text-neutral-500 font-light">คลิกการ์ดเพื่อกรองมาตราตามประมวลกฎหมาย</span>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div onclick="filterCategory('ccc')" class="bg-white p-6 rounded-3xl border border-cream-200 hover:border-amber-300 hover:shadow-xl hover:shadow-cream-200/50 transition-all duration-300 cursor-pointer group flex flex-col justify-between">
+                <div onclick="filterCategory('ccc')" class="bg-white p-6 rounded-3xl border border-cream-200 hover:border-amber-400 hover:shadow-2xl hover:shadow-amber-900/10 transition-all duration-300 cursor-pointer group flex flex-col justify-between transform hover:-translate-y-1">
                     <div>
-                        <div class="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-800 mb-4 group-hover:scale-110 transition-transform">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-800 mb-4 group-hover:scale-110 group-hover:bg-amber-100 transition-all">
                             <i class="fa-solid fa-handshake text-lg"></i>
                         </div>
                         <span class="text-xs font-semibold text-amber-800 uppercase tracking-wider bg-amber-50 px-2.5 py-1 rounded-lg">ป.พ.พ.</span>
@@ -160,13 +180,13 @@
                     </div>
                     <div class="mt-6 pt-4 border-t border-cream-100 flex items-center justify-between text-xs font-medium text-amber-800">
                         <span>ดูมาตราสำคัญ</span>
-                        <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                        <i class="fa-solid fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
                     </div>
                 </div>
 
-                <div onclick="filterCategory('pc')" class="bg-white p-6 rounded-3xl border border-cream-200 hover:border-amber-300 hover:shadow-xl hover:shadow-cream-200/50 transition-all duration-300 cursor-pointer group flex flex-col justify-between">
+                <div onclick="filterCategory('pc')" class="bg-white p-6 rounded-3xl border border-cream-200 hover:border-rose-400 hover:shadow-2xl hover:shadow-rose-900/10 transition-all duration-300 cursor-pointer group flex flex-col justify-between transform hover:-translate-y-1">
                     <div>
-                        <div class="w-12 h-12 rounded-2xl bg-rose-50 border border-rose-200 flex items-center justify-center text-rose-700 mb-4 group-hover:scale-110 transition-transform">
+                        <div class="w-12 h-12 rounded-2xl bg-rose-50 border border-rose-200 flex items-center justify-center text-rose-700 mb-4 group-hover:scale-110 group-hover:bg-rose-100 transition-all">
                             <i class="fa-solid fa-gavel text-lg"></i>
                         </div>
                         <span class="text-xs font-semibold text-rose-700 uppercase tracking-wider bg-rose-50 px-2.5 py-1 rounded-lg">ป.อ.</span>
@@ -175,13 +195,13 @@
                     </div>
                     <div class="mt-6 pt-4 border-t border-cream-100 flex items-center justify-between text-xs font-medium text-rose-700">
                         <span>ดูมาตราสำคัญ</span>
-                        <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                        <i class="fa-solid fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
                     </div>
                 </div>
 
-                <div onclick="filterCategory('cpc')" class="bg-white p-6 rounded-3xl border border-cream-200 hover:border-amber-300 hover:shadow-xl hover:shadow-cream-200/50 transition-all duration-300 cursor-pointer group flex flex-col justify-between">
+                <div onclick="filterCategory('cpc')" class="bg-white p-6 rounded-3xl border border-cream-200 hover:border-sky-400 hover:shadow-2xl hover:shadow-sky-900/10 transition-all duration-300 cursor-pointer group flex flex-col justify-between transform hover:-translate-y-1">
                     <div>
-                        <div class="w-12 h-12 rounded-2xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-700 mb-4 group-hover:scale-110 transition-transform">
+                        <div class="w-12 h-12 rounded-2xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-700 mb-4 group-hover:scale-110 group-hover:bg-sky-100 transition-all">
                             <i class="fa-solid fa-scale-balanced text-lg"></i>
                         </div>
                         <span class="text-xs font-semibold text-sky-700 uppercase tracking-wider bg-sky-50 px-2.5 py-1 rounded-lg">ป.วิ.แพ่ง</span>
@@ -190,13 +210,13 @@
                     </div>
                     <div class="mt-6 pt-4 border-t border-cream-100 flex items-center justify-between text-xs font-medium text-sky-700">
                         <span>ดูมาตราสำคัญ</span>
-                        <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                        <i class="fa-solid fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
                     </div>
                 </div>
 
-                <div onclick="filterCategory('cpcc')" class="bg-white p-6 rounded-3xl border border-cream-200 hover:border-amber-300 hover:shadow-xl hover:shadow-cream-200/50 transition-all duration-300 cursor-pointer group flex flex-col justify-between">
+                <div onclick="filterCategory('cpcc')" class="bg-white p-6 rounded-3xl border border-cream-200 hover:border-indigo-400 hover:shadow-2xl hover:shadow-indigo-900/10 transition-all duration-300 cursor-pointer group flex flex-col justify-between transform hover:-translate-y-1">
                     <div>
-                        <div class="w-12 h-12 rounded-2xl bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-700 mb-4 group-hover:scale-110 transition-transform">
+                        <div class="w-12 h-12 rounded-2xl bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-700 mb-4 group-hover:scale-110 group-hover:bg-indigo-100 transition-all">
                             <i class="fa-solid fa-shield-dog text-lg"></i>
                         </div>
                         <span class="text-xs font-semibold text-indigo-700 uppercase tracking-wider bg-indigo-50 px-2.5 py-1 rounded-lg">ป.วิ.อาญา</span>
@@ -205,7 +225,7 @@
                     </div>
                     <div class="mt-6 pt-4 border-t border-cream-100 flex items-center justify-between text-xs font-medium text-indigo-700">
                         <span>ดูมาตราสำคัญ</span>
-                        <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                        <i class="fa-solid fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
                     </div>
                 </div>
             </div>
@@ -216,9 +236,12 @@
             <h3 id="sectionTitle" class="text-xl font-bold text-neutral-800 flex items-center gap-2">
                 <i class="fa-solid fa-list text-amber-700"></i> รายการมาตรากฎหมายทั้งหมด
             </h3>
-            <span id="resultCount" class="text-xs sm:text-sm font-medium text-neutral-500 bg-white px-3.5 py-1.5 rounded-full border border-cream-200 shadow-sm">
-                แสดงผล ... มาตรา
-            </span>
+            <div class="flex justify-center mt-4">
+    <div class="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-2xl border border-cream-200 shadow-sm text-xs sm:text-sm font-medium text-neutral-700">
+        <i class="fa-solid fa-book-bookmark text-amber-700"></i>
+        <span>จำนวนมาตราในระบบทั้งหมด: <strong id="totalArticlesCount" class="text-amber-800">37</strong> มาตรา</span>
+    </div>
+</div>
         </div>
 
         <!-- Articles Grid Container -->
@@ -228,12 +251,12 @@
 
         <!-- Empty State -->
         <div id="emptyState" class="hidden text-center py-16 bg-white rounded-3xl border border-cream-200 shadow-sm mt-6">
-            <div class="w-16 h-16 bg-amber-50 text-amber-800 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl border border-amber-200">
+            <div class="w-16 h-16 bg-amber-50 text-amber-800 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl border border-amber-200 animate-bounce">
                 <i class="fa-solid fa-folder-open"></i>
             </div>
             <h4 class="text-lg font-bold text-neutral-800">ไม่พบมาตรากฎหมายที่ค้นหา</h4>
             <p class="text-sm text-neutral-500 font-light mt-1">ลองเปลี่ยนคำค้นหา หรือเลือกหมวดหมู่อื่นใหม่อีกครั้ง</p>
-            <button onclick="resetView()" class="mt-4 px-5 py-2.5 bg-neutral-900 text-white rounded-xl text-xs font-medium hover:bg-neutral-800 transition-all shadow-md">
+            <button onclick="resetView()" class="mt-4 px-5 py-2.5 bg-neutral-900 text-white rounded-xl text-xs font-medium hover:bg-neutral-800 transition-all shadow-md hover:scale-105">
                 ดูมาตราทั้งหมด
             </button>
         </div>
@@ -245,29 +268,35 @@
             <!-- Modal Header -->
             <div class="px-6 py-5 border-b border-cream-200 flex items-center justify-between bg-cream-50/50">
                 <div class="flex items-center space-x-3">
-                    <span id="modalCategoryBadge" class="text-xs font-semibold px-3 py-1 rounded-lg uppercase tracking-wider">หมวด</span>
+                    <span id="modalCategoryBadge" class="text-xs font-semibold px-3 py-1 rounded-lg uppercase tracking-wider">มาตรา</span>
                     <h3 id="modalTitle" class="text-lg sm:text-xl font-bold text-neutral-900">มาตรา...</h3>
                 </div>
                 <div class="flex items-center space-x-2">
-                    <button id="modalBookmarkBtn" onclick="toggleBookmarkFromModal()" class="w-9 h-9 rounded-xl bg-white border border-cream-200 text-amber-600 hover:bg-amber-50 flex items-center justify-center transition-all shadow-sm" title="บันทึกมาตราโปรด">
+                    <button id="modalBookmarkBtn" onclick="toggleBookmarkFromModal()" class="w-9 h-9 rounded-xl bg-white border border-cream-200 text-amber-600 hover:bg-amber-50 flex items-center justify-center transition-all shadow-sm hover:scale-105" title="บันทึกมาตราโปรด">
                         <i class="fa-regular fa-bookmark text-base"></i>
                     </button>
-                    <button onclick="closeModal()" class="w-9 h-9 rounded-xl bg-white border border-cream-200 text-neutral-500 hover:text-neutral-800 hover:bg-cream-100 flex items-center justify-center transition-all">
+                    <button onclick="closeModal()" class="w-9 h-9 rounded-xl bg-white border border-cream-200 text-neutral-500 hover:text-neutral-800 hover:bg-cream-100 flex items-center justify-center transition-all hover:rotate-90 duration-300">
                         <i class="fa-solid fa-xmark text-lg"></i>
                     </button>
                 </div>
             </div>
             <!-- Modal Body -->
             <div class="p-6 sm:p-8 overflow-y-auto space-y-6">
+                <!-- ส่วนแสดง บรรพ และ หมวด ใน Modal -->
+                <div class="flex flex-wrap gap-2 text-xs text-neutral-600 bg-amber-50/60 p-3 rounded-xl border border-amber-200/50">
+                    <span id="modalBuntu" class="font-medium text-amber-900"><i class="fa-solid fa-bookmark mr-1"></i> -</span>
+                    <span class="text-amber-300">|</span>
+                    <span id="modalSubGroup" class="font-medium text-amber-900"><i class="fa-solid fa-folder-open mr-1"></i> -</span>
+                </div>
                 <div>
                     <h4 class="text-xs font-bold text-neutral-400 uppercase tracking-wider mb-2">เนื้อหามาตรา</h4>
-                    <p id="modalText" class="text-base sm:text-lg text-neutral-800 font-medium leading-relaxed bg-cream-50/60 p-5 rounded-2xl border border-cream-200/60 shadow-inner">
+                    <p id="modalText" class="text-base sm:text-lg text-neutral-800 font-medium leading-relaxed bg-cream-50/60 p-5 rounded-2xl border border-cream-200/60 shadow-inner whitespace-pre-line">
                         <!-- Content -->
                     </p>
                 </div>
                 <div id="modalExplanationContainer">
                     <h4 class="text-xs font-bold text-amber-800 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                        <i class="fa-solid fa-lightbulb"></i> คำอธิบาย
+                        <i class="fa-solid fa-lightbulb text-amber-600 animate-pulse"></i> คำอธิบายกฎหมายเพื่อความเข้าใจ
                     </h4>
                     <p id="modalExplanation" class="text-sm text-neutral-600 font-light leading-relaxed bg-amber-50/40 p-5 rounded-2xl border border-amber-200/50">
                         <!-- Explanation -->
@@ -278,10 +307,10 @@
             <div class="px-6 py-4 border-t border-cream-200 bg-cream-50/50 flex items-center justify-between">
                 <span id="modalSubCategory" class="text-xs text-neutral-500 font-light">หมวดย่อย</span>
                 <div class="flex items-center space-x-2">
-                    <button onclick="copyCurrentModalArticle()" class="px-4 py-2 bg-amber-100 hover:bg-amber-200 text-amber-900 rounded-xl text-xs font-medium transition-all flex items-center gap-1.5 shadow-sm">
+                    <button onclick="copyCurrentModalArticle()" class="px-4 py-2 bg-amber-100 hover:bg-amber-200 text-amber-900 rounded-xl text-xs font-medium transition-all flex items-center gap-1.5 shadow-sm hover:scale-105">
                         <i class="fa-regular fa-copy"></i> คัดลอกมาตรา
                     </button>
-                    <button onclick="closeModal()" class="px-5 py-2 bg-neutral-900 text-white rounded-xl text-xs font-medium hover:bg-neutral-800 transition-all shadow-md">
+                    <button onclick="closeModal()" class="px-5 py-2 bg-neutral-900 text-white rounded-xl text-xs font-medium hover:bg-neutral-800 transition-all shadow-md hover:scale-105">
                         ปิดหน้าต่าง
                     </button>
                 </div>
@@ -292,8 +321,10 @@
     <!-- Footer -->
     <footer class="bg-white border-t border-cream-200 py-8 text-center text-neutral-500 font-light">
         <div class="max-w-7xl mx-auto px-4 space-y-2">
-            <p class="font-medium text-neutral-700">ระบบสารสนเทศกฎหมายเพื่อการศึกษา</p>
-            <p class="font-medium text-neutral-700">(Thai Law Information System for Education)</p>
+            <p class="font-medium text-neutral-700 flex items-center justify-center gap-2">
+                <i class="fa-solid fa-scale-balanced text-amber-700"></i> ระบบสารสนเทศกฎหมายเพื่อการศึกษา
+            </p>
+            <p class="font-medium text-neutral-500 text-xs">(Thai Law Information System for Education - TLISE)</p>
             <p class="font-medium text-neutral-400 text-xs pt-1">© 2026 Thai Law Information System for Education. All Rights Reserved.</p>
         </div>
     </footer>
@@ -307,6 +338,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 1",
+                buntu: "บรรพ 1 หลักทั่วไป",
+                subGroup: "ลักษณะ 1 นัยทั่วไป",
                 title: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 text: "กฎหมายนี้เรียกว่า ประมวลกฎหมายแพ่งและพาณิชย์",
                 explanation: "เป็นชื่อเรียกกฎหมายฉบับนี้",
@@ -318,6 +351,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 2",
+                buntu: "บรรพ 1 หลักทั่วไป",
+                subGroup: "ลักษณะ 1 นัยทั่วไป",
                 title: "วันที่ใช้กฎหมายนี้",
                 text: "ให้ใช้ประมวลกฎหมายนี้ตั้งแต่วันที่ 1 เดือนมกราคม พุทธศักราช 2468 เป็นต้นไป",
 
@@ -328,6 +363,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 3",
+                buntu: "บรรพ 1 หลักทั่วไป",
+                subGroup: "ลักษณะ 1 นัยทั่วไป",
                 title: "ให้ยกเลิกกฎหมายอื่นที่ขัดแย้งกับกฎหมายฉบับนี้",
                 text: "ตั้งแต่วันที่ใช้ประมวลกฎหมายนี้สืบไป ให้ยกเลิกบรรดากฎหมาย กฎและข้อบังคับอื่น ๆ ในส่วนที่มีบัญญัติไว้แล้วในประมวลกฎหมายนี้หรือซึ่งแย้งกับบทแห่งประมวลกฎหมายนี้",
             },
@@ -337,6 +374,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 4",
+                buntu: "บรรพ 1 หลักทั่วไป",
+                subGroup: "ลักษณะ 1 นัยทั่วไป",
                 title: "หลักการวินิจฉัยคดีตามกฎหมาย",
                 text: "(วรรค 1) กฎหมายนั้น ต้องใช้ในบรรดากรณีซึ่งต้องด้วยบทบัญญัติใด ๆ แห่งกฎหมายตามตัวอักษร หรือตามความมุ่งหมายของบทบัญญัตินั้น ๆ\n" +
                 "(วรรค 2) เมื่อไม่มีบทกฎหมายที่จะยกมาปรับคดีได้ ให้วินิจฉัยคดีนั้นตามจารีตประเพณีแห่งท้องถิ่น ถ้าไม่มีจารีตประเพณีเช่นว่านั้น ให้วินิจฉัยคดีอาศัยเทียบบทกฎหมายที่ใกล้เคียงอย่างยิ่ง และถ้าบทกฎหมายเช่นนั้นก็ไม่มีด้วย ให้วินิจฉัยตามหลักกฎหมายทั่วไป",
@@ -347,6 +386,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 5",
+                buntu: "บรรพ 1 หลักทั่วไป",
+                subGroup: "ลักษณะ 1 นัยทั่วไป",
                 title: "ใช้สิทธิโดยสุจริต",
                 text: "ในการใช้สิทธิแห่งตนก็ดี ในการชำระหนี้ก็ดี บุคคลทุกคนต้องกระทำโดยสุจริต",
             },
@@ -356,6 +397,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 6",
+                buntu: "บรรพ 1 หลักทั่วไป",
+                subGroup: "ลักษณะ 1 นัยทั่วไป",
                 title: "สันนิษฐานว่าทุกคนกระทำโดยสุจริต",
                 text: "ให้สันนิษฐานไว้ก่อนว่า บุคคลทุกคนกระทำการโดยสุจริต",
             },
@@ -365,6 +408,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 7",
+                buntu: "บรรพ 1 หลักทั่วไป",
+                subGroup: "ลักษณะ 1 นัยทั่วไป",
                 title: "ดอกเบี้ยกรณีที่ไม่ได้ตกลงกันไว้ก่อน",
                 text: "(วรรค 1) ถ้าจะต้องเสียดอกเบี้ยแก่กันและมิได้กำหนดอัตราดอกเบี้ยไว้โดยนิติกรรมหรือโดยบทกฎหมายอันชัดแจ้ง ให้ใช้อัตราร้อยละ 3 ต่อปี\n" +
                 "(วรรค 2) อัตราตามวรรค 1 อาจปรับเปลี่ยนให้ลดลงหรือเพิ่มขึ้นเพื่อให้สอดคล้องกับสภาพเศรษฐกิจของประเทศไทยได้โดยตราเป็นพระราชกฤษฎีกา โดยปกติให้กระทรวงการคลังพิจารณาทบทวนทุก 3 ปี ให้ใกล้เคียงกับอัตราเฉลี่ยระหว่างอัตราดอกเบี้ยเงินฝากกับอัตราดอกเบี้ยเงินให้กู้ยืมของธนาคารพาณิชย์",
@@ -375,6 +420,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 8",
+                buntu: "บรรพ 1 หลักทั่วไป",
+                subGroup: "ลักษณะ 1 นัยทั่วไป",
                 title: "ความหมายของคำว่า เหตุสุดวิสัย",
                 text: "คำว่า เหตุสุดวิสัย หมายความว่า เหตุใด ๆ อันจะเกิดขึ้นก็ดี จะให้ผลพิบัติก็ดี เป็นเหตุที่ไม่อาจป้องกันได้แม้ทั้งบุคคลผู้ต้องประสบหรือใกล้จะต้องประสบเหตุนั้นจะได้จัดการระมัดระวังตามสมควรอันพึงคาดหมายได้จากบุคคลในฐานะและภาวะเช่นนั้น",
             },
@@ -384,6 +431,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 9",
+                buntu: "บรรพ 1 หลักทั่วไป",
+                subGroup: "ลักษณะ 1 นัยทั่วไป",
                 title: "กฎหมายบังคับให้ทำเป็นหนังสือ การลงลายมือชื่อในเอกสาร",
                 text: "(วรรค 1) เมื่อมีกิจอันใดซึ่งกฎหมายบังคับให้ทำเป็นหนังสือ บุคคลผู้จะต้องทำหนังสือไม่จำเป็นต้องเขียนเอง แต่หนังสือนั้นต้องลงลายมือชื่อของบุคคลนั้น\n" +
                 "(วรรค 2) ลายพิมพ์นิ้วมือ แกงได ตราประทับ หรือเครื่องหมายอื่นทำนองเช่นว่านั้นที่ทำลงในเอกสารแทนการลงลายมือชื่อ หากมีพยานลงลายมือชื่อรับรองไว้ด้วย 2 คนแล้วใก้ถือเสมอกับการลงลายมือชื่อ\n" +
@@ -395,6 +444,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 10",
+                buntu: "บรรพ 1 หลักทั่วไป",
+                subGroup: "ลักษณะ 1 นัยทั่วไป",
                 title: "เอกสารตีความได้ 2 นัย",
                 text: "เมื่อความข้อใดข้อหนึ่งในเอกสารอาจตีความได้ 2 นัย นัยไหนจะทำให้เป็นผลบังคับได้ ให้ถือเอาตามนัยนั้นดีกว่าที่จะถือเอานัยที่ไร้ผล"
             },
@@ -404,6 +455,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 11",
+                buntu: "บรรพ 1 หลักทั่วไป",
+                subGroup: "ลักษณะ 1 นัยทั่วไป",
                 title: "ตีความข้อสงสัยที่คุณเป็นคุณแก่ฝ่ายที่จะต้องเสียมูลหนี้",
                 text: "ในกรณีที่มีข้อสงสัย ให้ตีความไปในทิศทางที่เป็นคุณแก่คู่กรณีฝ่ายซึ่งจะเป็นผู้ต้องเสียในมูลหนี้นั้น"
             },
@@ -413,6 +466,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 12",
+                buntu: "บรรพ 1 หลักทั่วไป",
+                subGroup: "ลักษณะ 1 นัยทั่วไป",
                 title: "จำนวนเงินหรือปริมาณในเอกสารเป็นตัวเลขต่างกับตัวอักษร ให้ถือเอาตัวอักษร",
                 text: "ในกรณีที่จำนวนเงินหรือปริมาณในเอกสารแสดงไว้ทั้งตัวอักษรและตัวเลข ถ้าตัวอักษรกับตัวเลขไม่ตรงกัน และมิอาจหยั่งทราบเจตนาอันแท้จริงได้ ให้ถือเอาจำนวนเงินหรือปริมาณที่เป็นตัวอักษรเป็นประมาณ"
             },
@@ -422,6 +477,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 13",
+                buntu: "บรรพ 1 หลักทั่วไป",
+                subGroup: "ลักษณะ 1 นัยทั่วไป",
                 title: "จำนวนเงินหรือปริมาณในเอกสารเป็นตัวอักษรและตัวเลขหลายแห่งต่างกัน ถือเอาจำนวนที่น้อยที่สุด",
                 text: "ถ้าจำนวนเงินหรือปริมาณในเอกสารแสดงไว้เป็นตัวอักษรหลายแห่งหรือเป็นตัวเลขหลายแห่ง แต่ที่แสดงไว้หลายแห่งนั้นไม่ตรงกัน และมิอาจหยั่งทราบเจตนาอันแท้จริงได้ ให้ถือเอาจำนวนเงินหรือปริมาณที่น้อยที่สุดเป็นประมาณ"
             },
@@ -431,6 +488,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 14",
+                buntu: "บรรพ 1 หลักทั่วไป",
+                subGroup: "ลักษณะ 1 นัยทั่วไป",
                 title: "เอกสารทำขึ้นหลายภาษา ข้อความต่างกัน ให้ถือเอาภาษาไทย",
                 text: "ในกรณีที่เอกสารทำขึ้นไว้หลายภาษา ไม่ว่าจะเป็นฉบับเดียวกันหรือหลายฉบับก็ตามโดยมีภาษาไทยด้วย ถ้าข้อความในหลายภาษานั้นแตกต่างกัน และมิอาจหยั่งทราบเจตนาของคู่กรณีได้ว่าจะใช้ภาษาใดบังคับ ให้ถือตามภาษาไทย"
             },
@@ -440,6 +499,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 15",
+                buntu: "บรรพ 1 หลักทั่วไป",
+                subGroup: "ลักษณะ 1 นัยทั่วไป",
                 title: "สภาพบุคคลเมื่อเริ่มต้นและสิ้นสุด",
                 text: "(วรรค 1) สภาพบุคคลย่อมเริ่มแต่เมื่อคลอดแล้วอยู่รอดเป็นทารก และสิ้นสุดลงเมื่อตาย\n" +
                 "(วรรค 2) ทารกในครรภ์มารดาก็สามารถมีสิทธิต่างๆ ได้ หากว่าภายหลังคลอดแล้วอยู่รอดเป็นทารก"
@@ -450,6 +511,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 16",
+                buntu: "บรรพ 1 หลักทั่วไป",
+                subGroup: "ลักษณะ 1 นัยทั่วไป",
                 title: "การนับอายุบุคคล",
                 text: "การนับอายุของบุคคล ให้เริ่มนับแต่วันเกิด ในกรณีที่รู้ว่าเกิดในเดือนใดแต่ไม่รู้วันที่เกิด ให้นับวันที่หนึ่งแห่งเดือนนั้นเป็นวันเกิด แต่ถ้าพ้นวิสัยที่จะหยั่งรู้เดือนและวันเกิดของบุคคลนั้น ใก้นับอายุของบุคคลนั้นตั้งแต่วันต้นปีปฏิทิน ซึ่งเป็นปีที่บุคคลนั้นเกิด"
             },
@@ -459,6 +522,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 17",
+                buntu: "บรรพ 1 หลักทั่วไป",
+                subGroup: "ลักษณะ 1 นัยทั่วไป",
                 title: "บุคคลหลายคนตายในภยันตรายร่วมกัน ถือว่าตายพร้อมกัน",
                 text: "ในกรณีบุคคลหลายคนตายในภยันตรายร่วมกัน ถ้าเป็นการพ้นวิสัยที่กำหนดได้ว่าคนไหนตายก่อนหลัง ให้ถือว่าตายพร้อมกัน"
             },
@@ -468,6 +533,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 18",
+                buntu: "บรรพ 1 หลักทั่วไป",
+                subGroup: "ลักษณะ 1 นัยทั่วไป",
                 title: "สิทธิในการใช้ชื่อ",
                 text: "สิทธิของบุคคลในการที่จะใช้นามอันชอบที่จะใช้ได้นั้น ถ้ามีบุคคลอื่นโต้แย้งก็ดี หรือบุคคลผผู้เป็นเจ้าของนามนั้นต้องเสื่อมเสียผลประโยชน์เพราะการที่มีผู้อื่นมาใช้นามเดียวกันโดยมิได้รับอำนาจให้ใช้ได้ก็ดี บุคคลผู้เป็นเจ้าของนามจะเรียกให้บุคคลนั้นระงับความเสียหายก็ได้ ถ้าและเป็นที่พึงวิตกว่าจะต้องเสียหายอยู่สืบไปจะร้องขอต่อศาลให้สั่งห้ามก็ได้"
             },
@@ -477,6 +544,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 19",
+                buntu: "บรรพ 1 หลักทั่วไป",
+                subGroup: "ลักษณะ 1 นัยทั่วไป",
                 title: "บรรลุนิติภาวะเมื่ออายุ 20 ปีบริบูรณ์",
                 text: "บุคคลย่อมพ้นจากภาวะผู้เยาว์และบรรลุนิติภาวะเมื่อมีอายุ 20 ปีบริบูรณ์"
             },
@@ -486,6 +555,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 20",
+                buntu: "บรรพ 1 หลักทั่วไป",
+                subGroup: "ลักษณะ 1 นัยทั่วไป",
                 title: "ผู้เยาว์บรรลุนิติภาวะเมื่อสมรส",
                 text: "ผู้เยาว์ย่อมบรรลุนิติภาวะเมื่อทำการสมรส หากการสมรสนั้นได้ทำตามบทบัญญัติมาตรา 1448"
             },
@@ -495,6 +566,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 21",
+                buntu: "บรรพ 1 หลักทั่วไป",
+                subGroup: "ลักษณะ 1 นัยทั่วไป",
                 title: "ผู้เยาว์ทำนิติกรรมต้องได้รับคววามยินยอมจากผู้แทนโดยชอบธรรม",
                 text: "ผู้เยาว์จะทำนิติกรรมใดๆ ต้องได้รับความยินยอมของผู้แทนโดยชอบธรรมก่อน การใดๆ ที่ผู้เยาว์ได้ทำลงปราศจากความยินยอมเช่นว่านั้นเป็นโมฆียะ เว้นแต่จะบัญญัติไว้เป็นอย่างอื่น"
             },
@@ -504,6 +577,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 22",
+                buntu: "บรรพ 1 หลักทั่วไป",
+                subGroup: "ลักษณะ 1 นัยทั่วไป",
                 title: "ผู้เยาว์มีสิทธิเพื่อจะได้สิทธิ หรือหลุดพ้นจากหน้าที่ได้",
                 text: "ผู้เยาว์อาจทำการใดๆ ได้ทั้งสิ้น หากเป็นเพียงเพื่อจะได้ไปซึ่งสิทธิอันใดอันหนึ่ง หรือเป็นการเพื่อให้หลุดพ้นจากหน้าที่อันใดอันหนึ่ง"
             },
@@ -513,6 +588,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 23",
+                buntu: "บรรพ 1 หลักทั่วไป",
+                subGroup: "ลักษณะ 1 นัยทั่วไป",
                 title: "ผู้เยาว์ต้องทำเองเฉพาะตัวได้",
                 text: "ผู้เยาว์อาจทำการใดๆ ได้ทั้งสิ้น ซึ่งเป็นการต้องทำเองเฉพาะตัว"
             },
@@ -522,6 +599,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 24",
+                buntu: "บรรพ 1 หลักทั่วไป",
+                subGroup: "ลักษณะ 1 นัยทั่วไป",
                 title: "ผู้เยาว์กระทำการดำรงชีพได้",
                 text: "ผู้เยาว์อาจทำการใดๆ ได้ทั้งสิ้น ซึ่งเป็นการสมแก่ฐานานุรูปแห่งตนและเป็นการอันจำเป็นในการดำรงชีพตามสมควร"
             },
@@ -531,6 +610,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 25",
+                buntu: "บรรพ 1 หลักทั่วไป",
+                subGroup: "ลักษณะ 1 นัยทั่วไป",
                 title: "ผู้เยาว์ทำพินัยกรรมได้เมื่ออายุ 15 ปีบริบูรณ์",
                 text: "ผู้เยาว์อาจทำพินัยกรรมได้เมื่ออายุ 15 ปีบริบูรณ์"
             },
@@ -540,6 +621,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 26",
+                buntu: "บรรพ 1 หลักทั่วไป",
+                subGroup: "ลักษณะ 1 นัยทั่วไป",
                 title: "ผู้แทนโดยชอบธรรมอนุญาตให้ผู้เยาว์จำหน่ายทรัพย์สิน",
                 text: "ถ้าผู้แทนโดยชอบธรรมอนุญาตให้ผู้เยาว์จำหน่ายทรัพย์สินเพื่อการอันใดอันหนึ่งอันได้ระบุไว้ ผู้เยาว์จะจำหน่ายทรัพย์สินนั้นเป็นประการใดภายในขอบเขตของการที่ระบุไว้นั้นด็ทำได้ตามใจสมัคร อนึ่ง ถ้าได้รับอนุญาตให้จำหน่ายทรัพย์โดยมิได้ระบุว่าเพื่อการอันใด ผู้เยาว์ก็จำหน่ายได่ตามใจสมัคร"
             },
@@ -549,6 +632,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 27",
+                buntu: "บรรพ 1 หลักทั่วไป",
+                subGroup: "ลักษณะ 1 นัยทั่วไป",
                 title: "ผู้แทนโดยชอบธรรมให้ความยินยอมให้ผู้เยาว์ประกอบธุรกิจการค้า หรือทำสัญญาเป็นลูกจ้าง",
                 text: "(วรรค 1) ผู้แทนโดยชอบธรรมอาจให้ความยินยอมแก่ผู้เยาว์ในการประกอบธุรกิจทางการค้าหรือธุรกิจอื่น หรือในการทำสัญญาเป็นลูกจ้างในสัญญาจ้างแรงงานได้ ในกรณีที่ผู้แทนโดยชอบธรรมไม่ให้ความยินยอมโดยไม่มีเหตุอันสมควร ผู้เยาว์อาจร้องขอต่อศาลให้สั่งอนุญาตได้\n" +
                 "(วรรค 2) ในความเกี่ยวพันกับการประกอบธุรกิจหรือการจ้างแรงงานตามวรรค 1 ให้ผู้เยาว์มีฐานะเสมือนดังบุคคลซึ่งบรรลุนิติภาวะแล้ว\n" +
@@ -562,6 +647,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 28",
+                buntu: "บรรพ 1 หลักทั่วไป",
+                subGroup: "ลักษณะ 1 นัยทั่วไป",
                 title: "ศาลสั่งให้บุคคลวิกลจริตเป็นคนไร้ความสามารถ",
                 text: "(วรรค 1) บุคคลวิกลจริตผู้ใด ถ้าคู่สมรสก็ดี ผู้บุพการี กล่าวคือ บิดา มารดา ปู่ย่า ตายาย ทวดก็ดี ผู้สืบสันดาน กล่าวคือ ลูก หลาน เหลน ลื่อก็ดี ผู้ปกครองหรือผู้พิทักษ์ก็ดี ผู้ซึ่งปกครองดูแลบุคคลนั้นอยู่ก็ดี หรือพนักงานอัยการก็ดี ร้องขอต่อศาลใหสั่งให้บุคคลวิกลจริตผู้นั้นเป็นคนไร้ความสามารถ ศาลจะสั่งให้บุคคลวิกลจริตผู้นั้นเป็นคนไร้ความสามารถก็ได้\n" + 
                 "(วรรค 2) บุคคลซึ่งศาลสั่งให้เป็นคนไร้ความสามารถตามวรรค 1 ต้องจัดให้อยู่ในความอนุบาล การแต่งตั้งผู้อนุบาล อำนาขหน้าที่ของผู้อนุบาลและการสิ้นสุดลงของความเป็นผู้อนุบาล ให้เป็นไปตามบทบัญญัติบรรพ 5 แห่งประมวลกฎหมายนี้\n" + 
@@ -573,6 +660,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 29",
+                buntu: "บรรพ 1 หลักทั่วไป",
+                subGroup: "ลักษณะ 1 นัยทั่วไป",
                 title: "บุคคลไร้ความสามารถ ทำนิติกรรมนั้นเป็นโมฆียะ",
                 text: "การใดๆ อันบุคคลซึ่งศาลสั่งให้เป็นคนไร้ความสามารถได้กระทำลง การนั้นเป็นโมฆียะ"
             },
@@ -582,6 +671,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 420",
+                buntu: "บรรพ 3 เอกเทศสัญญา / ละเมิด",
+                subGroup: "ลักษณะ 5 ละเมิด",
                 title: "ความรับผิดฐานละเมิด",
                 text: "ผู้ใดจงใจหรือประมาทเลินเล่อ ทำต่อบุคคลอื่นโดยผิดกฎหมายให้เขาเสียหายแก่ชีวิตก็ดี ร่างกายก็ดี อนามัยก็ดี เสรีภาพก็ดี ทรัพย์สินหรือสิทธิอย่างหนึ่งอย่างใดก็ดี ท่านว่าผู้นั้นทำละเมิดจำต้องใช้ค่าสินไหมทดแทนเพื่อการนั้น",
                 explanation: "เป็นหลักกฎหมายพื้นฐานของความรับผิดทางแพ่ง (ละเมิด) ประกอบด้วยองค์ประกอบคือ 1. จงใจหรือประมาทเลินเล่อ 2. โดยผิดกฎหมาย 3. เกิดความเสียหาย 4. มีความสัมพันธ์ระหว่างการกระทำกับความเสียหาย"
@@ -592,6 +683,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 453",
+                buntu: "บรรพ 3 เอกเทศสัญญา",
+                subGroup: "ลักษณะ 1 ซื้อขาย",
                 title: "ลักษณะแห่งสัญญาซื้อขาย",
                 text: "อันว่าซื้อขายนั้น คือสัญญาซึ่งบุคคลฝ่ายหนึ่งเรียกว่าผู้ขาย โอนกรรมสิทธิ์แห่งทรัพย์สินให้แก่บุคคลอีกฝ่ายหนึ่งเรียกว่าผู้ซื้อ และผู้ซื้อตกลงว่าจะใช้ราคาทรัพย์สินนั้นให้แก่ผู้ขาย",
                 explanation: "นิยามทางกฎหมายของสัญญาซื้อขาย ซึ่งใจความสำคัญคือการ 'โอนกรรมสิทธิ์' และการชำระ 'ราคา'"
@@ -602,6 +695,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 653",
+                buntu: "บรรพ 3 เอกเทศสัญญา",
+                subGroup: "ลักษณะ 3 ยืม",
                 title: "หลักฐานแห่งการกู้ยืมเงิน",
                 text: "การกู้ยืมเงินกว่าสองพันบาทขึ้นไปนั้น ถ้ามิได้มีหลักฐานแห่งการกู้ยืมเป็นหนังสืออย่างลงลายมือชื่อผู้ยืมเป็นสำคัญ จะฟ้องร้องให้บังคับคดีหาได้ไม่",
                 explanation: "สัญญายืมเงินเกิน 2,000 บาทขึ้นไป กฎหมายบังคับว่าต้องมีหลักฐานเป็นลายลักษณ์อักษรที่ผู้ยืมลงลายมือชื่อจึงจะฟ้องศาลบังคับคดีได้"
@@ -612,6 +707,8 @@
                 categoryName: "ประมวลกฎหมายแพ่งและพาณิชย์",
                 badgeClass: "bg-amber-50 text-amber-800 border border-amber-200",
                 section: "มาตรา 1336",
+                buntu: "บรรพ 4 ทรัพย์สิน",
+                subGroup: "ลักษณะ 1 กรรมสิทธิ์",
                 title: "สิทธิของเจ้าของกรรมสิทธิ์ทรัพย์สิน",
                 text: "ภายในบังคับแห่งกฎหมาย เจ้าของทรัพย์สินมีสิทธิใช้สอยและจำหน่ายทรัพย์สินของตนและได้ซึ่งดอกผลแห่งทรัพย์สินนั้น ทั้งมีสิทธิติดตามและเอาคืนซึ่งทรัพย์สินของตนจากบุคคลผู้ไม่มีสิทธิจะยึดถือไว้ และมีสิทธิขัดขวางมิให้ผู้อื่นสอดเข้าเกี่ยวข้องกับทรัพย์สินนั้นโดยมิชอบด้วยกฎหมาย",
                 explanation: "มาตราหลักเรื่องกรรมสิทธิ์ ให้สิทธิเจ้าของในการครอบครอง ใช้สอย ได้ดอกผล จำหน่าย ติดตามเอาคืน และขัดขวางผู้สอดเข้าเกี่ยวข้อง"
@@ -622,8 +719,10 @@
                 categoryName: "ประมวลกฎหมายอาญา",
                 badgeClass: "bg-rose-50 text-rose-700 border border-rose-200",
                 section: "มาตรา 288",
+                buntu: "ภาค 2 ความผิด",
+                subGroup: "ลักษณะ 1 ความผิดเกี่ยวกับชีวิตและร่างกาย",
                 title: "ความผิดฐานฆ่าผู้อื่น",
-                text: "ผู้ใดฆ่าผู้อื่น ต้องระวางโทษประหารชีวิต จำคุกตั้งแต่สิบห้าปีถึงยี่สิบปี",
+                text: "ผู้ใดฆ่าผู้อื่น ต้องระวางโทษประหารชีวิต จำคุกตั้งแต่สิบหปีถึงยี่สิบปี",
                 explanation: "ความผิดฐานฆ่าผู้อื่นโดยเจตนา เป็นความผิดอาญาแผ่นดินที่มีโทษรุนแรงสูงมาก"
             },
             {
@@ -632,6 +731,8 @@
                 categoryName: "ประมวลกฎหมายอาญา",
                 badgeClass: "bg-rose-50 text-rose-700 border border-rose-200",
                 section: "มาตรา 334",
+                buntu: "ภาค 2 ความผิด",
+                subGroup: "ลักษณะ 12 ความผิดเกี่ยวกับทรัพย์",
                 title: "ความผิดฐานลักทรัพย์",
                 text: "ผู้ใดเอาทรัพย์ของผู้อื่น หรือที่ผู้อื่นเป็นเจ้าของรวมอยู่ด้วยไปโดยทุจริต ผู้นั้นกระทำความผิดฐานลักทรัพย์ ต้องระวางโทษจำคุกไม่เกินสามปี และปรับไม่เกินหกหมื่นบาท",
                 explanation: "องค์ประกอบความผิดฐานลักทรัพย์ คือการเอาทรัพย์ไปโดยทุจริตโดยไม่มีการใช้กำลังประทุษร้าย"
@@ -642,6 +743,8 @@
                 categoryName: "ประมวลกฎหมายวิธีพิจารณาความแพ่ง",
                 badgeClass: "bg-sky-50 text-sky-700 border border-sky-200",
                 section: "มาตรา 55",
+                buntu: "ภาค 1 วิธีพิจารณาในศาลชั้นต้น",
+                subGroup: "ลักษณะ 2 คำคู่ความและคำฟ้อง",
                 title: "สิทธิในการเสนอคำฟ้องคดีแพ่ง",
                 text: "เมื่อมีข้อโต้แย้งเกิดขึ้นเกี่ยวกับสิทธิหรือหน้าที่ของบุคคลใดตามกฎหมายแพ่ง หรือบุคคลใดจะต้องใช้สิทธิทางศาล บุคคลนั้นมีสิทธิเสนอคำฟ้องของตนต่อศาลเพื่อวินิจฉัยชี้ขาด...",
                 explanation: "เงื่อนไขเบื้องต้นในการฟ้องคดีแพ่งคือต้อง 'มีข้อโต้แย้งเกิดขึ้น' เกี่ยวกับสิทธิหรือหน้าที่เสียก่อน"
@@ -652,6 +755,8 @@
                 categoryName: "ประมวลกฎหมายวิธีพิจารณาความอาญา",
                 badgeClass: "bg-indigo-50 text-indigo-700 border border-indigo-200",
                 section: "มาตรา 2 (16)",
+                buntu: "ภาค 1 ข้อความเบื้องต้น",
+                subGroup: "ลักษณะ 1 ความหมายคำ",
                 title: "คำร้องทุกข์ในคดีอาญา",
                 text: "'คำร้องทุกข์' หมายความถึงการที่ผู้เสียหายได้กล่าวหาต่อเจ้าหน้าที่ผู้มีอำนาจว่ามีผู้กระทำความผิดขึ้น จะรู้ตัวผู้กระทำความผิดหรือไม่ก็ตาม และการกล่าวหาเช่นนั้นได้กล่าวโดยมีเจตนาจะให้ผู้กระทำความผิดได้รับโทษ",
                 explanation: "นิยามสำคัญของผู้เสียหายและคำร้องทุกข์ ในความผิดอันยอมความได้ต้องมีคำร้องทุกข์ภายใน 3 เดือน"
@@ -663,7 +768,6 @@
         let isShowingBookmarks = false;
         let activeModalArticleId = null;
 
-        // โหลดรายการโปรดจาก localStorage (ถ้ามี)
         let bookmarkedIds = JSON.parse(localStorage.getItem('tlise_bookmarks')) || [];
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -671,18 +775,15 @@
             renderArticles(legalData);
         });
 
-        // อัปเดตจำนวนบนปุ่มมาตราโปรด
         function updateBookmarkBadge() {
             document.getElementById('bookmarkBadgeCount').innerText = bookmarkedIds.length;
         }
 
-        // บันทึกลง localStorage ทันทีเมื่อมีการเปลี่ยนแปลง
         function saveBookmarksToStorage() {
             localStorage.setItem('tlise_bookmarks', JSON.stringify(bookmarkedIds));
             updateBookmarkBadge();
         }
 
-        // แสดง Toast Notification
         function showToast(message) {
             const toast = document.getElementById('toast');
             document.getElementById('toastMessage').innerText = message;
@@ -692,7 +793,6 @@
             }, 2500);
         }
 
-        // สลับสถานะมาตราโปรด (Bookmark)
         function toggleBookmark(id, event) {
             if (event) event.stopPropagation();
             const index = bookmarkedIds.indexOf(id);
@@ -705,14 +805,12 @@
             }
             saveBookmarksToStorage();
 
-            // หากกำลังเปิดดูหน้ามาตราโปรด ให้เรนเดอร์ใหม่ทันที
             if (isShowingBookmarks) {
                 renderBookmarkView();
             } else {
                 filterAndRender();
             }
 
-            // อัปเดตไอคอนใน Modal ถ้าเปิดอยู่
             if (activeModalArticleId === id) {
                 updateModalBookmarkIcon(id);
             }
@@ -729,18 +827,17 @@
             const isBookmarked = bookmarkedIds.includes(id);
             if (isBookmarked) {
                 btn.innerHTML = `<i class="fa-solid fa-bookmark text-base"></i>`;
-                btn.className = "w-9 h-9 rounded-xl bg-amber-100 border border-amber-300 text-amber-800 flex items-center justify-center transition-all shadow-sm";
+                btn.className = "w-9 h-9 rounded-xl bg-amber-100 border border-amber-300 text-amber-800 flex items-center justify-center transition-all shadow-sm scale-105";
             } else {
                 btn.innerHTML = `<i class="fa-regular fa-bookmark text-base"></i>`;
                 btn.className = "w-9 h-9 rounded-xl bg-white border border-cream-200 text-amber-600 hover:bg-amber-50 flex items-center justify-center transition-all shadow-sm";
             }
         }
 
-        // ฟังก์ชันคัดลอกมาตราจาก Modal
         function copyCurrentModalArticle() {
             const item = legalData.find(d => d.id === activeModalArticleId);
             if (!item) return;
-            const textToCopy = `${item.section} ${item.title}\nเนื้อหา: ${item.text}\nคำอธิบาย: ${item.explanation || '-'}\n(อ้างอิงจากระบบสารสนเทศกฎหมายเพื่อการศึกษา TLISE)`;
+            const textToCopy = `${item.section} (${item.buntu} / ${item.subGroup}) ${item.title}\nเนื้อหา: ${item.text}\nคำอธิบาย: ${item.explanation || '-'}\n(อ้างอิงจากระบบสารสนเทศกฎหมายเพื่อการศึกษา TLISE)`;
             
             navigator.clipboard.writeText(textToCopy).then(() => {
                 showToast('คัดลอกรายละเอียดมาตราไปยังคลิปบอร์ดแล้ว');
@@ -749,7 +846,6 @@
             });
         }
 
-        // เปิดดูหน้ามาตราโปรด
         function toggleBookmarksView() {
             isShowingBookmarks = true;
             document.getElementById('categoryOverview').classList.add('hidden');
@@ -768,7 +864,6 @@
             renderArticles(bookmarkedData);
         }
 
-        // ค้นหา
         function handleSearch() {
             isShowingBookmarks = false;
             const input = document.getElementById('searchInput');
@@ -804,9 +899,9 @@
             
             const pills = document.querySelectorAll('.cat-pill');
             pills.forEach(p => {
-                p.className = "cat-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-white text-neutral-700 border border-cream-300 hover:bg-cream-50";
+                p.className = "cat-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-white text-neutral-700 border border-cream-300 hover:bg-cream-50 hover:scale-105";
             });
-            event.currentTarget.className = "cat-pill active px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-neutral-900 text-white shadow-sm";
+            event.currentTarget.className = "cat-pill active px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-neutral-900 text-white shadow-sm scale-105";
 
             const overview = document.getElementById('categoryOverview');
             if (currentCategory === 'all' && searchQuery === '') {
@@ -849,6 +944,8 @@
                     item.section.toLowerCase().includes(searchQuery) || 
                     item.title.toLowerCase().includes(searchQuery) || 
                     item.text.toLowerCase().includes(searchQuery) ||
+                    item.buntu.toLowerCase().includes(searchQuery) ||
+                    item.subGroup.toLowerCase().includes(searchQuery) ||
                     item.categoryName.toLowerCase().includes(searchQuery);
                 return matchCategory && matchSearch;
             });
@@ -884,20 +981,21 @@
             grid.innerHTML = data.map(item => {
                 const isBookmarked = bookmarkedIds.includes(item.id);
                 return `
-                    <div onclick="openModal('${item.id}')" class="bg-white p-6 rounded-3xl border border-cream-200 hover:border-amber-300 hover:shadow-xl hover:shadow-cream-200/50 transition-all duration-300 cursor-pointer flex flex-col justify-between group animate-fade-in">
+                    <div onclick="openModal('${item.id}')" class="bg-white p-6 rounded-3xl border border-cream-200 hover:border-amber-400 hover:shadow-xl hover:shadow-amber-900/10 transition-all duration-300 cursor-pointer flex flex-col justify-between group animate-fade-in transform hover:-translate-y-1">
                         <div>
                             <div class="flex items-center justify-between mb-3">
                                 <span class="text-xs font-semibold px-3 py-1 rounded-lg uppercase tracking-wider ${item.badgeClass}">${item.section}</span>
-                                <button onclick="toggleBookmark('${item.id}', event)" class="w-8 h-8 rounded-xl bg-cream-50 hover:bg-amber-100 flex items-center justify-center text-amber-700 transition-colors" title="บันทึกมาตราโปรด">
-                                    <i class="${isBookmarked ? 'fa-solid' : 'fa-regular'} fa-bookmark"></i>
+                                <button onclick="toggleBookmark('${item.id}', event)" class="w-8 h-8 rounded-xl bg-cream-50 hover:bg-amber-100 flex items-center justify-center text-amber-700 transition-all hover:scale-110" title="บันทึกมาตราโปรด">
+                                    <i class="${isBookmarked ? 'fa-solid text-amber-600' : 'fa-regular'} fa-bookmark"></i>
                                 </button>
                             </div>
+                            <div class="text-[11px] text-amber-800 font-medium mb-1 truncate"><i class="fa-solid fa-bookmark mr-1"></i>${item.buntu}</div>
                             <h4 class="text-lg font-bold text-neutral-900 mb-2 group-hover:text-amber-800 transition-colors">${item.title}</h4>
                             <p class="text-xs text-neutral-600 font-light line-clamp-3 leading-relaxed mb-4">${item.text}</p>
                         </div>
                         <div class="pt-4 border-t border-cream-100 flex items-center justify-between">
                             <span class="text-xs font-medium text-neutral-500 truncate max-w-[180px]">${item.categoryName}</span>
-                            <span class="text-xs font-semibold text-amber-800 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                            <span class="text-xs font-semibold text-amber-800 flex items-center gap-1 group-hover:translate-x-1.5 transition-transform">
                                 ดูรายละเอียด <i class="fa-solid fa-arrow-right"></i>
                             </span>
                         </div>
@@ -917,6 +1015,9 @@
             document.getElementById('modalText').innerText = item.text;
             document.getElementById('modalExplanation').innerText = item.explanation || 'ไม่มีคำอธิบายเพิ่มเติม';
             document.getElementById('modalSubCategory').innerText = item.categoryName;
+            
+            document.getElementById('modalBuntu').innerHTML = `<i class="fa-solid fa-bookmark mr-1"></i> ${item.buntu}`;
+            document.getElementById('modalSubGroup').innerHTML = `<i class="fa-solid fa-folder-open mr-1"></i> ${item.subGroup}`;
 
             updateModalBookmarkIcon(id);
 
